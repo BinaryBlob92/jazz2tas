@@ -211,12 +211,12 @@
             this.dataGridViewInputs.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dataGridViewInputs.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnEnter;
             this.dataGridViewInputs.Location = new System.Drawing.Point(3, 16);
-            this.dataGridViewInputs.MultiSelect = false;
             this.dataGridViewInputs.Name = "dataGridViewInputs";
             this.dataGridViewInputs.RowHeadersVisible = false;
             this.dataGridViewInputs.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dataGridViewInputs.Size = new System.Drawing.Size(444, 407);
             this.dataGridViewInputs.TabIndex = 1;
+            this.dataGridViewInputs.RowPrePaint += new System.Windows.Forms.DataGridViewRowPrePaintEventHandler(this.dataGridViewInputs_RowPrePaint);
             // 
             // ColumnFrame
             // 

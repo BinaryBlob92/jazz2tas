@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -19,7 +20,7 @@ namespace Jazz2TAS
         private ushort _PreviousFrame;
         private ushort _PreviousFinished;
         private int _CurrentHash;
-        private int _PreviousIndex;
+        private int _Index;
         private ushort[] _Positions = new ushort[256];
 
         private IntPtr _TASInputsPointer;
@@ -415,26 +416,20 @@ namespace Jazz2TAS
                         var index = dataGridViewInputs.SelectedRows.Count > 0 ? dataGridViewInputs.SelectedRows[0].Index : 0;
 
                         while (index > 0 && Inputs[index].Frame > frame)
-                        {
-                            dataGridViewInputs.Rows[index].Selected = false;
                             index--;
-                        }
 
                         while (index + 1 < Inputs.Count && Inputs[index + 1].Frame < frame)
-                        {
-                            dataGridViewInputs.Rows[index].Selected = false;
                             index++;
-                        }
 
-                        if (_PreviousIndex != index)
+                        if (_Index != index)
                         {
                             var inputs = dataGridViewInputs.Rows[index].DataBoundItem as Inputs;
                             if (inputs != null && inputs.Gun.HasValue && inputs.Gun.Value > 0 && inputs.Gun.Value < 10)
                             {
                                 SendKeys.Send(inputs.Gun.Value.ToString());
                             }
-                            dataGridViewInputs.Rows[index].Selected = true;
-                            _PreviousIndex = index;
+                            _Index = index;
+                            dataGridViewInputs.Refresh();
                         }
 
                         _PreviousFrame = frame;
@@ -455,6 +450,16 @@ namespace Jazz2TAS
             catch (Exception ex)
             {
                 Debug.WriteLine(ex.Message);
+            }
+        }
+
+        private void dataGridViewInputs_RowPrePaint(object sender, DataGridViewRowPrePaintEventArgs e)
+        {
+            if (e.RowIndex == _Index)
+            {
+                e.Graphics.FillRectangle(Brushes.Red, e.RowBounds);
+                e.PaintCells(e.ClipBounds, DataGridViewPaintParts.All & ~DataGridViewPaintParts.Background);
+                e.Handled = true;
             }
         }
     }
