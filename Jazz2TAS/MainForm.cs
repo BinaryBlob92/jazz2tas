@@ -59,16 +59,23 @@ namespace Jazz2TAS
                 WinApi.ReadProcessMemory(_Process.Handle, _PositionHistoryPointer, _Positions, 256, out bytesRead);
                 int currentFrame = frame;
 
-                dataGridView1.Rows.Clear();
-                for (int yPos = 16; currentFrame > 0 && yPos < ClientRectangle.Height; yPos += 16)
+                dataGridViewPositionHistory.Rows.Clear();
+                for (int i = 0; currentFrame > 0 && i < 64; i++)
                 {
                     int index = (currentFrame-- % 64) * 2;
                     int previousIndex = (currentFrame % 64) * 2;
                     int x = _Positions[index];
                     int y = _Positions[index + 1];
-                    int xSpeed = x - _Positions[previousIndex];
-                    int ySpeed = y - _Positions[previousIndex + 1];
-                    dataGridView1.Rows.Add(currentFrame, x + " (" + xSpeed + ")", y + " (" + ySpeed + ")");
+                    if (i < 63)
+                    {
+                        int xSpeed = x - _Positions[previousIndex];
+                        int ySpeed = y - _Positions[previousIndex + 1];
+                        dataGridViewPositionHistory.Rows.Add(currentFrame, x + " (" + xSpeed + ")", y + " (" + ySpeed + ")");
+                    }
+                    else
+                    {
+                        dataGridViewPositionHistory.Rows.Add(currentFrame, x, y);
+                    }
                 }
             }
             catch (Exception ex)

@@ -59,7 +59,7 @@
             this.toolStripStatusLabelInfo = new System.Windows.Forms.ToolStripStatusLabel();
             this.splitter2 = new System.Windows.Forms.Splitter();
             this.groupBoxPositionHistory = new System.Windows.Forms.GroupBox();
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.dataGridViewPositionHistory = new System.Windows.Forms.DataGridView();
             this.ColumnPositionFrame = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ColumnPositionX = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ColumnPositionY = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -70,7 +70,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewInputs)).BeginInit();
             this.statusStrip.SuspendLayout();
             this.groupBoxPositionHistory.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewPositionHistory)).BeginInit();
             this.SuspendLayout();
             // 
             // mainMenu
@@ -321,7 +321,7 @@
             // 
             // groupBoxPositionHistory
             // 
-            this.groupBoxPositionHistory.Controls.Add(this.dataGridView1);
+            this.groupBoxPositionHistory.Controls.Add(this.dataGridViewPositionHistory);
             this.groupBoxPositionHistory.Dock = System.Windows.Forms.DockStyle.Right;
             this.groupBoxPositionHistory.Location = new System.Drawing.Point(700, 4);
             this.groupBoxPositionHistory.Name = "groupBoxPositionHistory";
@@ -330,24 +330,24 @@
             this.groupBoxPositionHistory.TabStop = false;
             this.groupBoxPositionHistory.Text = "Position history";
             // 
-            // dataGridView1
+            // dataGridViewPositionHistory
             // 
-            this.dataGridView1.AllowUserToAddRows = false;
-            this.dataGridView1.AllowUserToDeleteRows = false;
-            this.dataGridView1.BackgroundColor = System.Drawing.SystemColors.Window;
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.dataGridViewPositionHistory.AllowUserToAddRows = false;
+            this.dataGridViewPositionHistory.AllowUserToDeleteRows = false;
+            this.dataGridViewPositionHistory.BackgroundColor = System.Drawing.SystemColors.Window;
+            this.dataGridViewPositionHistory.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridViewPositionHistory.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.ColumnPositionFrame,
             this.ColumnPositionX,
             this.ColumnPositionY,
             this.ColumnPositionFiller});
-            this.dataGridView1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dataGridView1.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
-            this.dataGridView1.Location = new System.Drawing.Point(3, 16);
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.RowHeadersVisible = false;
-            this.dataGridView1.Size = new System.Drawing.Size(234, 407);
-            this.dataGridView1.TabIndex = 1;
+            this.dataGridViewPositionHistory.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dataGridViewPositionHistory.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
+            this.dataGridViewPositionHistory.Location = new System.Drawing.Point(3, 16);
+            this.dataGridViewPositionHistory.Name = "dataGridViewPositionHistory";
+            this.dataGridViewPositionHistory.RowHeadersVisible = false;
+            this.dataGridViewPositionHistory.Size = new System.Drawing.Size(234, 407);
+            this.dataGridViewPositionHistory.TabIndex = 1;
             // 
             // ColumnPositionFrame
             // 
@@ -395,7 +395,7 @@
             this.statusStrip.ResumeLayout(false);
             this.statusStrip.PerformLayout();
             this.groupBoxPositionHistory.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewPositionHistory)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -433,7 +433,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn ColumnFiller;
         private System.Windows.Forms.Splitter splitter2;
         private System.Windows.Forms.GroupBox groupBoxPositionHistory;
-        private System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.DataGridView dataGridViewPositionHistory;
         private System.Windows.Forms.DataGridViewTextBoxColumn ColumnPositionFrame;
         private System.Windows.Forms.DataGridViewTextBoxColumn ColumnPositionX;
         private System.Windows.Forms.DataGridViewTextBoxColumn ColumnPositionY;
