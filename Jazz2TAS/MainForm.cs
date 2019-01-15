@@ -462,5 +462,22 @@ namespace Jazz2TAS
                 e.Handled = true;
             }
         }
+
+        private void menuItemOffset_Click(object sender, EventArgs e)
+        {
+            using (var dialog = new OffsetForm())
+            {
+                if (dialog.ShowDialog() == DialogResult.OK)
+                {
+                    foreach (DataGridViewRow row in dataGridViewInputs.SelectedRows)
+                    {
+                        var inputs = row.DataBoundItem as Inputs;
+
+                        if (inputs != null)
+                            inputs.Frame += dialog.Offset;
+                    }
+                }
+            }
+        }
     }
 }

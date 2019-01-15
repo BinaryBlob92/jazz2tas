@@ -64,6 +64,8 @@
             this.ColumnPositionX = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ColumnPositionY = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ColumnPositionFiller = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.menuItemEdit = new System.Windows.Forms.MenuItem();
+            this.menuItemOffset = new System.Windows.Forms.MenuItem();
             this.groupBoxLevels.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewLevels)).BeginInit();
             this.groupBoxInputs.SuspendLayout();
@@ -76,7 +78,8 @@
             // mainMenu
             // 
             this.mainMenu.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
-            this.menuItemFile});
+            this.menuItemFile,
+            this.menuItemEdit});
             // 
             // menuItemFile
             // 
@@ -373,6 +376,19 @@
             this.ColumnPositionFiller.HeaderText = "";
             this.ColumnPositionFiller.Name = "ColumnPositionFiller";
             // 
+            // menuItemEdit
+            // 
+            this.menuItemEdit.Index = 1;
+            this.menuItemEdit.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
+            this.menuItemOffset});
+            this.menuItemEdit.Text = "Edit";
+            // 
+            // menuItemOffset
+            // 
+            this.menuItemOffset.Index = 0;
+            this.menuItemOffset.Text = "Offset selected inputs...";
+            this.menuItemOffset.Click += new System.EventHandler(this.menuItemOffset_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -438,5 +454,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn ColumnPositionX;
         private System.Windows.Forms.DataGridViewTextBoxColumn ColumnPositionY;
         private System.Windows.Forms.DataGridViewTextBoxColumn ColumnPositionFiller;
+        private System.Windows.Forms.MenuItem menuItemEdit;
+        private System.Windows.Forms.MenuItem menuItemOffset;
     }
 }
