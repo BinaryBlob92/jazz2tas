@@ -35,6 +35,8 @@
             this.menuItemOpen = new System.Windows.Forms.MenuItem();
             this.menuItemSave = new System.Windows.Forms.MenuItem();
             this.menuItemSaveAs = new System.Windows.Forms.MenuItem();
+            this.menuItemEdit = new System.Windows.Forms.MenuItem();
+            this.menuItemOffset = new System.Windows.Forms.MenuItem();
             this.groupBoxLevels = new System.Windows.Forms.GroupBox();
             this.dataGridViewLevels = new System.Windows.Forms.DataGridView();
             this.ColumnLevelName = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -44,16 +46,6 @@
             this.splitter1 = new System.Windows.Forms.Splitter();
             this.groupBoxInputs = new System.Windows.Forms.GroupBox();
             this.dataGridViewInputs = new System.Windows.Forms.DataGridView();
-            this.ColumnFrame = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ColumnRight = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.ColumnLeft = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.ColumnUp = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.ColumnDown = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.ColumnJump = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.ColumnShoot = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.ColumnRun = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.ColumnGun = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ColumnFiller = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.statusStrip = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabelProcessFound = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabelInfo = new System.Windows.Forms.ToolStripStatusLabel();
@@ -64,8 +56,16 @@
             this.ColumnPositionX = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ColumnPositionY = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ColumnPositionFiller = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.menuItemEdit = new System.Windows.Forms.MenuItem();
-            this.menuItemOffset = new System.Windows.Forms.MenuItem();
+            this.ColumnFrame = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ColumnLeft = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.ColumnRight = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.ColumnUp = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.ColumnDown = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.ColumnJump = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.ColumnShoot = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.ColumnRun = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.ColumnGun = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ColumnFiller = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.groupBoxLevels.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewLevels)).BeginInit();
             this.groupBoxInputs.SuspendLayout();
@@ -117,6 +117,19 @@
             this.menuItemSaveAs.Index = 3;
             this.menuItemSaveAs.Text = "Save as...";
             this.menuItemSaveAs.Click += new System.EventHandler(this.menuItemSaveAs_Click);
+            // 
+            // menuItemEdit
+            // 
+            this.menuItemEdit.Index = 1;
+            this.menuItemEdit.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
+            this.menuItemOffset});
+            this.menuItemEdit.Text = "Edit";
+            // 
+            // menuItemOffset
+            // 
+            this.menuItemOffset.Index = 0;
+            this.menuItemOffset.Text = "Offset selected inputs...";
+            this.menuItemOffset.Click += new System.EventHandler(this.menuItemOffset_Click);
             // 
             // groupBoxLevels
             // 
@@ -202,8 +215,8 @@
             this.dataGridViewInputs.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridViewInputs.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.ColumnFrame,
-            this.ColumnRight,
             this.ColumnLeft,
+            this.ColumnRight,
             this.ColumnUp,
             this.ColumnDown,
             this.ColumnJump,
@@ -220,76 +233,6 @@
             this.dataGridViewInputs.Size = new System.Drawing.Size(444, 407);
             this.dataGridViewInputs.TabIndex = 1;
             this.dataGridViewInputs.RowPrePaint += new System.Windows.Forms.DataGridViewRowPrePaintEventHandler(this.dataGridViewInputs_RowPrePaint);
-            // 
-            // ColumnFrame
-            // 
-            this.ColumnFrame.DataPropertyName = "Frame";
-            this.ColumnFrame.HeaderText = "Frame";
-            this.ColumnFrame.Name = "ColumnFrame";
-            this.ColumnFrame.Width = 40;
-            // 
-            // ColumnRight
-            // 
-            this.ColumnRight.DataPropertyName = "Right";
-            this.ColumnRight.HeaderText = "Right";
-            this.ColumnRight.Name = "ColumnRight";
-            this.ColumnRight.Width = 40;
-            // 
-            // ColumnLeft
-            // 
-            this.ColumnLeft.DataPropertyName = "Left";
-            this.ColumnLeft.HeaderText = "Left";
-            this.ColumnLeft.Name = "ColumnLeft";
-            this.ColumnLeft.Width = 40;
-            // 
-            // ColumnUp
-            // 
-            this.ColumnUp.DataPropertyName = "Up";
-            this.ColumnUp.HeaderText = "Up";
-            this.ColumnUp.Name = "ColumnUp";
-            this.ColumnUp.Width = 40;
-            // 
-            // ColumnDown
-            // 
-            this.ColumnDown.DataPropertyName = "Down";
-            this.ColumnDown.HeaderText = "Down";
-            this.ColumnDown.Name = "ColumnDown";
-            this.ColumnDown.Width = 40;
-            // 
-            // ColumnJump
-            // 
-            this.ColumnJump.DataPropertyName = "Jump";
-            this.ColumnJump.HeaderText = "Jump";
-            this.ColumnJump.Name = "ColumnJump";
-            this.ColumnJump.Width = 40;
-            // 
-            // ColumnShoot
-            // 
-            this.ColumnShoot.DataPropertyName = "Shoot";
-            this.ColumnShoot.HeaderText = "Shoot";
-            this.ColumnShoot.Name = "ColumnShoot";
-            this.ColumnShoot.Width = 40;
-            // 
-            // ColumnRun
-            // 
-            this.ColumnRun.DataPropertyName = "Run";
-            this.ColumnRun.HeaderText = "Run";
-            this.ColumnRun.Name = "ColumnRun";
-            this.ColumnRun.Width = 40;
-            // 
-            // ColumnGun
-            // 
-            this.ColumnGun.DataPropertyName = "Gun";
-            this.ColumnGun.HeaderText = "Gun";
-            this.ColumnGun.Name = "ColumnGun";
-            this.ColumnGun.Width = 40;
-            // 
-            // ColumnFiller
-            // 
-            this.ColumnFiller.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.ColumnFiller.HeaderText = "";
-            this.ColumnFiller.Name = "ColumnFiller";
-            this.ColumnFiller.ReadOnly = true;
             // 
             // statusStrip
             // 
@@ -376,18 +319,75 @@
             this.ColumnPositionFiller.HeaderText = "";
             this.ColumnPositionFiller.Name = "ColumnPositionFiller";
             // 
-            // menuItemEdit
+            // ColumnFrame
             // 
-            this.menuItemEdit.Index = 1;
-            this.menuItemEdit.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
-            this.menuItemOffset});
-            this.menuItemEdit.Text = "Edit";
+            this.ColumnFrame.DataPropertyName = "Frame";
+            this.ColumnFrame.HeaderText = "Frame";
+            this.ColumnFrame.Name = "ColumnFrame";
+            this.ColumnFrame.Width = 40;
             // 
-            // menuItemOffset
+            // ColumnLeft
             // 
-            this.menuItemOffset.Index = 0;
-            this.menuItemOffset.Text = "Offset selected inputs...";
-            this.menuItemOffset.Click += new System.EventHandler(this.menuItemOffset_Click);
+            this.ColumnLeft.DataPropertyName = "Left";
+            this.ColumnLeft.HeaderText = "Left";
+            this.ColumnLeft.Name = "ColumnLeft";
+            this.ColumnLeft.Width = 40;
+            // 
+            // ColumnRight
+            // 
+            this.ColumnRight.DataPropertyName = "Right";
+            this.ColumnRight.HeaderText = "Right";
+            this.ColumnRight.Name = "ColumnRight";
+            this.ColumnRight.Width = 40;
+            // 
+            // ColumnUp
+            // 
+            this.ColumnUp.DataPropertyName = "Up";
+            this.ColumnUp.HeaderText = "Up";
+            this.ColumnUp.Name = "ColumnUp";
+            this.ColumnUp.Width = 40;
+            // 
+            // ColumnDown
+            // 
+            this.ColumnDown.DataPropertyName = "Down";
+            this.ColumnDown.HeaderText = "Down";
+            this.ColumnDown.Name = "ColumnDown";
+            this.ColumnDown.Width = 40;
+            // 
+            // ColumnJump
+            // 
+            this.ColumnJump.DataPropertyName = "Jump";
+            this.ColumnJump.HeaderText = "Jump";
+            this.ColumnJump.Name = "ColumnJump";
+            this.ColumnJump.Width = 40;
+            // 
+            // ColumnShoot
+            // 
+            this.ColumnShoot.DataPropertyName = "Shoot";
+            this.ColumnShoot.HeaderText = "Shoot";
+            this.ColumnShoot.Name = "ColumnShoot";
+            this.ColumnShoot.Width = 40;
+            // 
+            // ColumnRun
+            // 
+            this.ColumnRun.DataPropertyName = "Run";
+            this.ColumnRun.HeaderText = "Run";
+            this.ColumnRun.Name = "ColumnRun";
+            this.ColumnRun.Width = 40;
+            // 
+            // ColumnGun
+            // 
+            this.ColumnGun.DataPropertyName = "Gun";
+            this.ColumnGun.HeaderText = "Gun";
+            this.ColumnGun.Name = "ColumnGun";
+            this.ColumnGun.Width = 40;
+            // 
+            // ColumnFiller
+            // 
+            this.ColumnFiller.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.ColumnFiller.HeaderText = "";
+            this.ColumnFiller.Name = "ColumnFiller";
+            this.ColumnFiller.ReadOnly = true;
             // 
             // MainForm
             // 
@@ -437,16 +437,6 @@
         private System.Windows.Forms.StatusStrip statusStrip;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabelProcessFound;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabelInfo;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ColumnFrame;
-        private System.Windows.Forms.DataGridViewCheckBoxColumn ColumnRight;
-        private System.Windows.Forms.DataGridViewCheckBoxColumn ColumnLeft;
-        private System.Windows.Forms.DataGridViewCheckBoxColumn ColumnUp;
-        private System.Windows.Forms.DataGridViewCheckBoxColumn ColumnDown;
-        private System.Windows.Forms.DataGridViewCheckBoxColumn ColumnJump;
-        private System.Windows.Forms.DataGridViewCheckBoxColumn ColumnShoot;
-        private System.Windows.Forms.DataGridViewCheckBoxColumn ColumnRun;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ColumnGun;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ColumnFiller;
         private System.Windows.Forms.Splitter splitter2;
         private System.Windows.Forms.GroupBox groupBoxPositionHistory;
         private System.Windows.Forms.DataGridView dataGridViewPositionHistory;
@@ -456,5 +446,15 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn ColumnPositionFiller;
         private System.Windows.Forms.MenuItem menuItemEdit;
         private System.Windows.Forms.MenuItem menuItemOffset;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ColumnFrame;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn ColumnLeft;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn ColumnRight;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn ColumnUp;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn ColumnDown;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn ColumnJump;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn ColumnShoot;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn ColumnRun;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ColumnGun;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ColumnFiller;
     }
 }
