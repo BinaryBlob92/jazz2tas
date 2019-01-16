@@ -275,10 +275,10 @@ namespace Jazz2TAS
 
         private void InitializeTASFunctions()
         {
-            _TASInputsPointer = WinApi.VirtualAllocEx(_Process.Handle, IntPtr.Zero, 0xFFFF, 0x1000, 0x04);
+            _TASInputsPointer = WinApi.VirtualAllocEx(_Process.Handle, IntPtr.Zero, 0xFFFF + 0xFF, 0x1000, 0x04);
             TransferInputs();
 
-            _PositionHistoryPointer = WinApi.VirtualAllocEx(_Process.Handle, IntPtr.Zero, 0x00FF, 0x1000, 0x04);
+            _PositionHistoryPointer = _TASInputsPointer + 0xFFFF;
             WinApi.WriteProcessMemory(_Process.Handle, _PositionHistoryPointer, new byte[256], 256, out int bytesWritten);
 
             byte[] playbackFunctionData = new byte[]
@@ -308,7 +308,6 @@ namespace Jazz2TAS
                 0x5F, // pop edi
                 0xC3, // ret
             };
-            var playbackFunctionPointer = WinApi.VirtualAllocEx(_Process.Handle, IntPtr.Zero, playbackFunctionData.Length, 0x1000, 0x40);
             BitConverter.GetBytes((int)_TASInputsPointer).CopyTo(playbackFunctionData, 4);
             BitConverter.GetBytes((int)_Process.MainModule.BaseAddress + 0x1ADC20).CopyTo(playbackFunctionData, 9);
             BitConverter.GetBytes((int)_Process.MainModule.BaseAddress + 0x1C8AF0).CopyTo(playbackFunctionData, 25);
@@ -316,16 +315,6 @@ namespace Jazz2TAS
             BitConverter.GetBytes((int)_PositionHistoryPointer).CopyTo(playbackFunctionData, 46);
             BitConverter.GetBytes((int)_Process.MainModule.BaseAddress + 0x1C8572).CopyTo(playbackFunctionData, 54);
             BitConverter.GetBytes((int)_Process.MainModule.BaseAddress + 0x1C856E).CopyTo(playbackFunctionData, 64);
-            WinApi.WriteProcessMemory(_Process.Handle, playbackFunctionPointer, playbackFunctionData, playbackFunctionData.Length, out bytesWritten);
-
-            byte[] playbackCallData = new byte[]
-            {
-                0xE8, 0x00, 0x00, 0x00, 0x00, // call _PlaybackFunctionPointer
-                0xC3, // ret
-            };
-            IntPtr playbackCallPointer = _Process.MainModule.BaseAddress + 0x61B91;
-            BitConverter.GetBytes((int)playbackFunctionPointer - (int)playbackCallPointer - 5).CopyTo(playbackCallData, 1);
-            WinApi.WriteProcessMemory(_Process.Handle, playbackCallPointer, playbackCallData, playbackCallData.Length, out bytesWritten);
 
             byte[] resetFunctionData = new byte[]
             {
@@ -337,10 +326,22 @@ namespace Jazz2TAS
                 0x66, 0x58, // pop ax
                 0xC3, // ret 
             };
-            var resetFunctionPointer = WinApi.VirtualAllocEx(_Process.Handle, IntPtr.Zero, resetFunctionData.Length, 0x1000, 0x40);
             BitConverter.GetBytes((int)_Process.MainModule.BaseAddress + 0xE0714).CopyTo(resetFunctionData, 4);
             BitConverter.GetBytes((int)_Process.MainModule.BaseAddress + 0x1ADC20).CopyTo(resetFunctionData, 17);
+
+            var playbackFunctionPointer = WinApi.VirtualAllocEx(_Process.Handle, IntPtr.Zero, playbackFunctionData.Length + resetFunctionData.Length, 0x1000, 0x40);
+            WinApi.WriteProcessMemory(_Process.Handle, playbackFunctionPointer, playbackFunctionData, playbackFunctionData.Length, out bytesWritten);
+            var resetFunctionPointer = playbackFunctionPointer + playbackFunctionData.Length;
             WinApi.WriteProcessMemory(_Process.Handle, resetFunctionPointer, resetFunctionData, resetFunctionData.Length, out bytesWritten);
+
+            byte[] playbackCallData = new byte[]
+            {
+                0xE8, 0x00, 0x00, 0x00, 0x00, // call _PlaybackFunctionPointer
+                0xC3, // ret
+            };
+            IntPtr playbackCallPointer = _Process.MainModule.BaseAddress + 0x61B91;
+            BitConverter.GetBytes((int)playbackFunctionPointer - (int)playbackCallPointer - 5).CopyTo(playbackCallData, 1);
+            WinApi.WriteProcessMemory(_Process.Handle, playbackCallPointer, playbackCallData, playbackCallData.Length, out bytesWritten);
 
             IntPtr resetCallPointer = _Process.MainModule.BaseAddress + 0x3F5C5;
             byte[] resetCallData = new byte[]
