@@ -8,6 +8,7 @@ using System.Runtime.InteropServices;
 using System.Threading;
 using System.Windows.Forms;
 using System.Xml.Serialization;
+using System.Data;
 
 namespace Jazz2TAS
 {
@@ -476,6 +477,47 @@ namespace Jazz2TAS
 
                         if (inputs != null)
                             inputs.Frame += dialog.Offset;
+                    }
+                }
+            }
+        }
+
+        // TODO: Maybe make it insert after the selected item? Right now it assumes the end
+        // Shouldn't be hard, just need to get the index of the selected item and .Insert instead
+        private void menuItemShoot_Click(object sender, EventArgs e)
+        {
+            using (var dialog = new ShootForm())
+            {
+                if (dialog.ShowDialog() == DialogResult.OK)
+                {
+                    // Grab the selected frame and make it shoot
+                    DataGridViewRow row = dataGridViewInputs.SelectedRows[0];
+                    var inputs = row.DataBoundItem as Inputs;
+                    inputs.Shoot = true;
+
+                    var firstFrame = inputs.Frame;
+
+                    BindingList<Inputs> data = (BindingList<Inputs>)dataGridViewInputs.DataSource;
+
+                    // Un-shoot the first shot
+                    Inputs unshootOne = new Jazz2TAS.Inputs(row.DataBoundItem as Inputs);
+                    unshootOne.Frame++;
+                    unshootOne.Shoot = false;
+                    data.Add(unshootOne);
+
+                    // Start the loop at 1 since we already shot the first one
+                    for (var i=1; i<dialog.Shoot; i++)
+                    {
+                        // You can shoot every 6 frames (if doing more than 2 shots)
+                        Inputs shoot = new Jazz2TAS.Inputs(row.DataBoundItem as Inputs);
+                        shoot.Shoot = true;
+                        shoot.Frame += 6 * i;
+                        data.Add(shoot);
+
+                        Inputs unshoot = new Jazz2TAS.Inputs(row.DataBoundItem as Inputs);
+                        unshoot.Shoot = false;
+                        unshoot.Frame += (6 * i) + 1;
+                        data.Add(unshoot);
                     }
                 }
             }

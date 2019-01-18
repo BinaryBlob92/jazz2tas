@@ -50,6 +50,12 @@
     <Compile Include="MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="ShootForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ShootForm.Designer.cs">
+      <DependentUpon>ShootForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="OffsetForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -68,6 +74,9 @@
   <ItemGroup>
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ShootForm.resx">
+      <DependentUpon>ShootForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="OffsetForm.resx">
       <DependentUpon>OffsetForm.cs</DependentUpon>
