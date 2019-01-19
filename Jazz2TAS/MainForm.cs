@@ -414,26 +414,28 @@ namespace Jazz2TAS
 
                     if (finished == 0 && frame != _PreviousFrame && Inputs != null && dataGridViewInputs.Rows.Count > 0)
                     {
-                        var index = dataGridViewInputs.SelectedRows.Count > 0 ? dataGridViewInputs.SelectedRows[0].Index : 0;
+                        int index = _Index;
 
-                        while (index > 0 && Inputs[index].Frame > frame)
+                        while (index >= Inputs.Count || (index > 0 && Inputs[index].Frame > frame))
                             index--;
 
-                        while (index + 1 < Inputs.Count && Inputs[index + 1].Frame < frame)
-                            index++;
-
-                        if (_Index != index)
+                        while (index < Inputs.Count && Inputs[index].Frame < frame)
                         {
-                            var inputs = dataGridViewInputs.Rows[index].DataBoundItem as Inputs;
-                            if (inputs != null && inputs.Gun.HasValue && inputs.Gun.Value > 0 && inputs.Gun.Value < 10)
+                            var inputs = Inputs[index];
+                            if (inputs.Gun.HasValue && inputs.Gun.Value > 0 && inputs.Gun.Value < 10)
                             {
                                 SendKeys.Send(inputs.Gun.Value.ToString());
                             }
-                            _Index = index;
-                            dataGridViewInputs.Refresh();
+                            index++;
                         }
 
                         _PreviousFrame = frame;
+
+                        if (index != _Index)
+                        {
+                            _Index = index;
+                            dataGridViewInputs.Refresh();
+                        }
                     }
 
                     if (finished > _PreviousFinished && dataGridViewLevels.SelectedRows.Count > 0)
