@@ -412,7 +412,7 @@ namespace Jazz2TAS
                     toolStripStatusLabelProcessFound.Text = "Jazz2.exe process found";
                     toolStripStatusLabelInfo.Text = string.Format("Pos: {0} x {1}, Frame: {2}", x, y, frame);
 
-                    if (finished == 0 && frame != _PreviousFrame && Inputs != null && dataGridViewInputs.Rows.Count > 0)
+                    if (finished == 0 && frame != _PreviousFrame && Inputs != null && Inputs.Count > 0)
                     {
                         int index = _Index;
 
@@ -431,7 +431,7 @@ namespace Jazz2TAS
 
                         _PreviousFrame = frame;
 
-                        if (index != _Index)
+                        if (--index != _Index)
                         {
                             _Index = index;
                             dataGridViewInputs.Refresh();
