@@ -484,8 +484,10 @@ namespace Jazz2TAS
 
                         if (--index != _Index)
                         {
+                            int oldIndex = _Index;
                             _Index = index;
-                            dataGridViewInputs.Refresh();
+                            dataGridViewInputs.InvalidateRow(oldIndex);
+                            dataGridViewInputs.InvalidateRow(index);
                         }
                     }
 
