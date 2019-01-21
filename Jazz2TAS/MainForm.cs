@@ -22,7 +22,6 @@ namespace Jazz2TAS
         private ushort _PreviousFinished;
         private int _CurrentHash;
         private int _Index;
-        private int _Gun;
         private ushort[] _Positions = new ushort[256];
         private Color _CurrentFrameBackgroundColor = Color.FromArgb(255, 0, 0);
         private Color _TableTickBackgroundColor = Color.FromArgb(192, 192, 192);
@@ -467,7 +466,7 @@ namespace Jazz2TAS
                     if (finished == 0 && frame != _PreviousFrame && Inputs != null && Inputs.Count > 0)
                     {
                         int index = _Index;
-                        int gun = _Gun;
+                        int gun = 0;
 
                         while (index >= Inputs.Count || (index > 0 && Inputs[index].Frame > frame))
                             index--;
@@ -491,11 +490,8 @@ namespace Jazz2TAS
                             dataGridViewInputs.InvalidateRow(oldIndex);
                             dataGridViewInputs.InvalidateRow(index);
 
-                            if (gun != _Gun)
-                            {
-                                _Gun = gun;
-                                SendKeys.Send(_Gun.ToString());
-                            }
+                            if (gun != 0)
+                                SendKeys.Send(gun.ToString());
                         }
                     }
 
