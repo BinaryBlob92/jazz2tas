@@ -482,42 +482,104 @@ namespace Jazz2TAS
             }
         }
 
-        // TODO: Maybe make it insert after the selected item? Right now it assumes the end
-        // Shouldn't be hard, just need to get the index of the selected item and .Insert instead
         private void menuItemShoot_Click(object sender, EventArgs e)
         {
             using (var dialog = new ShootForm())
             {
                 if (dialog.ShowDialog() == DialogResult.OK)
                 {
-                    // Grab the selected frame and make it shoot
-                    DataGridViewRow row = dataGridViewInputs.SelectedRows[0];
-                    var inputs = row.DataBoundItem as Inputs;
-                    inputs.Shoot = true;
+                    // Grab the selected frame to use as a baseline
+                    // The baseline row is used so we don't lose inputs when switching on/off shoot
+                    DataGridViewRow currentBaseline = dataGridViewInputs.SelectedRows[0] ;
+                    var currentInputs = currentBaseline.DataBoundItem as Inputs ;
 
-                    var firstFrame = inputs.Frame;
-
+                    // Grab the data list so we can insert the inputs
                     BindingList<Inputs> data = (BindingList<Inputs>)dataGridViewInputs.DataSource;
 
-                    // Un-shoot the first shot
-                    Inputs unshootOne = new Jazz2TAS.Inputs(row.DataBoundItem as Inputs);
-                    unshootOne.Frame++;
-                    unshootOne.Shoot = false;
-                    data.Add(unshootOne);
+                    // Store the current index and frame
+                    // We start the index at selected-1 to trick the i=0 iteration of the loop
+                    var currentIndex = currentBaseline.Index-1 ;
+                    var currentFrame = currentInputs.Frame ;
 
-                    // Start the loop at 1 since we already shot the first one
-                    for (var i=1; i<dialog.Shoot; i++)
+                    for(var i=0; i<dialog.Shoot; i++)
                     {
-                        // You can shoot every 6 frames (if doing more than 2 shots)
-                        Inputs shoot = new Jazz2TAS.Inputs(row.DataBoundItem as Inputs);
-                        shoot.Shoot = true;
-                        shoot.Frame += 6 * i;
-                        data.Add(shoot);
+                        //---------//
+                        //  Shoot  //
+                        //---------//
 
-                        Inputs unshoot = new Jazz2TAS.Inputs(row.DataBoundItem as Inputs);
-                        unshoot.Shoot = false;
-                        unshoot.Frame += (6 * i) + 1;
-                        data.Add(unshoot);
+                        // Check the next input to see if it falls on or around our frame window
+                        Inputs nextInput = data[currentIndex+1] ;
+                        var frame = nextInput.Frame ;
+
+                        if(frame == currentFrame)
+                        {
+                            // The next input falls on the frame we want to shoot, hijack the input
+                            nextInput.Shoot = true ;
+                            currentInputs = nextInput ;
+                        }
+                        else if(frame < currentFrame)
+                        {
+                            while(data[currentIndex+1].Frame <= currentFrame)
+                            {
+                                // We might've skipped multiple frames, find the highest frame that's < our current
+                                currentIndex++ ;
+                                nextInput = data[currentIndex[currentIndex+1] ;
+                                frame = nextInput.Frame ;
+                            }
+
+                            // Oh no, we better check if the new frame is right on the frame we want
+                            if(frame == currentFrame)
+                            {
+                                // It was, our check was worth it! Hijack the input
+                                nextInput.Shoot = true ;
+                                currentInputs = nextInput ;
+                            }
+                            else
+                            {
+                                // The input fell between our last shot and this one, use it as our baseline
+                                currentInputs = nextInput ;
+                                Inputs shoot = new Jazz2TAS.Inputs(currentInputs) ;
+                                shoot.Shoot = true ;
+                                data.Insert(currentIndex+1, shoot) ;
+                            }
+                        }
+                        else
+                        {
+                            // No new inputs, just use what we've been using
+                            Inputs shoot = new Jazz2TAS.Inputs(currentInputs) ;
+                            shoot.Shoot = true ;
+                            data.Insert(currentIndex+1, shoot) ;
+                        }
+
+                        // Increment the index
+                        currentIndex++ ;
+
+                        //------------//
+                        //  Un-Shoot  //
+                        //------------//
+
+                        // Check the next input to see if it falls on or around our frame window
+                        nextInput = data[currentIndex+1] ;
+                        frame = nextInput.Frame ;
+
+                        if(frame == currentFrame+1)
+                        {
+                            // The next input falls on the frame we want to unshoot, hijack the input
+                            nextInput.Shoot = false ;
+                            currentInputs = nextInput ;
+                        }
+                        else
+                        {
+                            // No input, just use what we've been using
+                            Inputs unshoot = new Jazz2TAS.Inputs(currentInputs) ;
+                            unshoot.Shoot = true ;
+                            data.Insert(currentIndex+1, unshoot) ;
+                        }
+
+                        // Increment the index and frame
+                        // Frame goes up 6 because you can only shoot every 6 frames (for >2 shots)
+                        currentIndex++ ;
+                        currentFrame+=6 ;
                     }
                 }
             }
