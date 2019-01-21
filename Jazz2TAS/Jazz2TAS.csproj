@@ -63,6 +63,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resource.resx</DependentUpon>
     </Compile>
+    <Compile Include="Theme.cs" />
     <Compile Include="WinApi.cs" />
   </ItemGroup>
   <ItemGroup>

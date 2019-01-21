@@ -37,25 +37,17 @@
             this.menuItemSaveAs = new System.Windows.Forms.MenuItem();
             this.menuItemEdit = new System.Windows.Forms.MenuItem();
             this.menuItemOffset = new System.Windows.Forms.MenuItem();
-            this.groupBoxLevels = new System.Windows.Forms.GroupBox();
+            this.View = new System.Windows.Forms.MenuItem();
+            this.menuItemTheme = new System.Windows.Forms.MenuItem();
+            this.menuItemDefaultTheme = new System.Windows.Forms.MenuItem();
+            this.menuItemDarkTheme = new System.Windows.Forms.MenuItem();
             this.dataGridViewLevels = new System.Windows.Forms.DataGridView();
             this.ColumnLevelName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ColumnMoveUp = new System.Windows.Forms.DataGridViewButtonColumn();
             this.ColumnMoveDown = new System.Windows.Forms.DataGridViewButtonColumn();
             this.ColumnDelete = new System.Windows.Forms.DataGridViewButtonColumn();
             this.splitter1 = new System.Windows.Forms.Splitter();
-            this.groupBoxInputs = new System.Windows.Forms.GroupBox();
             this.dataGridViewInputs = new System.Windows.Forms.DataGridView();
-            this.statusStrip = new System.Windows.Forms.StatusStrip();
-            this.toolStripStatusLabelProcessFound = new System.Windows.Forms.ToolStripStatusLabel();
-            this.toolStripStatusLabelInfo = new System.Windows.Forms.ToolStripStatusLabel();
-            this.splitter2 = new System.Windows.Forms.Splitter();
-            this.groupBoxPositionHistory = new System.Windows.Forms.GroupBox();
-            this.dataGridViewPositionHistory = new System.Windows.Forms.DataGridView();
-            this.ColumnPositionFrame = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ColumnPositionX = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ColumnPositionY = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ColumnPositionFiller = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ColumnFrame = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ColumnLeft = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.ColumnRight = new System.Windows.Forms.DataGridViewCheckBoxColumn();
@@ -66,20 +58,36 @@
             this.ColumnRun = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.ColumnGun = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ColumnFiller = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.groupBoxLevels.SuspendLayout();
+            this.statusStrip = new System.Windows.Forms.StatusStrip();
+            this.toolStripStatusLabelProcessFound = new System.Windows.Forms.ToolStripStatusLabel();
+            this.toolStripStatusLabelInfo = new System.Windows.Forms.ToolStripStatusLabel();
+            this.splitter2 = new System.Windows.Forms.Splitter();
+            this.dataGridViewPositionHistory = new System.Windows.Forms.DataGridView();
+            this.ColumnPositionFrame = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ColumnPositionX = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ColumnPositionY = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ColumnPositionFiller = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.panelLevels = new System.Windows.Forms.Panel();
+            this.labelLevels = new System.Windows.Forms.Label();
+            this.panelPositionHistory = new System.Windows.Forms.Panel();
+            this.labelPositionHistory = new System.Windows.Forms.Label();
+            this.panelInputs = new System.Windows.Forms.Panel();
+            this.labelInputs = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewLevels)).BeginInit();
-            this.groupBoxInputs.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewInputs)).BeginInit();
             this.statusStrip.SuspendLayout();
-            this.groupBoxPositionHistory.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewPositionHistory)).BeginInit();
+            this.panelLevels.SuspendLayout();
+            this.panelPositionHistory.SuspendLayout();
+            this.panelInputs.SuspendLayout();
             this.SuspendLayout();
             // 
             // mainMenu
             // 
             this.mainMenu.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
             this.menuItemFile,
-            this.menuItemEdit});
+            this.menuItemEdit,
+            this.View});
             // 
             // menuItemFile
             // 
@@ -131,21 +139,38 @@
             this.menuItemOffset.Text = "Offset selected inputs...";
             this.menuItemOffset.Click += new System.EventHandler(this.menuItemOffset_Click);
             // 
-            // groupBoxLevels
+            // View
             // 
-            this.groupBoxLevels.Controls.Add(this.dataGridViewLevels);
-            this.groupBoxLevels.Dock = System.Windows.Forms.DockStyle.Left;
-            this.groupBoxLevels.Location = new System.Drawing.Point(4, 4);
-            this.groupBoxLevels.Name = "groupBoxLevels";
-            this.groupBoxLevels.Size = new System.Drawing.Size(240, 426);
-            this.groupBoxLevels.TabIndex = 0;
-            this.groupBoxLevels.TabStop = false;
-            this.groupBoxLevels.Text = "Levels";
+            this.View.Index = 2;
+            this.View.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
+            this.menuItemTheme});
+            this.View.Text = "View";
+            // 
+            // menuItemTheme
+            // 
+            this.menuItemTheme.Index = 0;
+            this.menuItemTheme.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
+            this.menuItemDefaultTheme,
+            this.menuItemDarkTheme});
+            this.menuItemTheme.Text = "Theme";
+            // 
+            // menuItemDefaultTheme
+            // 
+            this.menuItemDefaultTheme.Index = 0;
+            this.menuItemDefaultTheme.Text = "Default";
+            this.menuItemDefaultTheme.Click += new System.EventHandler(this.menuItemDefaultTheme_Click);
+            // 
+            // menuItemDarkTheme
+            // 
+            this.menuItemDarkTheme.Index = 1;
+            this.menuItemDarkTheme.Text = "Dark";
+            this.menuItemDarkTheme.Click += new System.EventHandler(this.menuItemDarkTheme_Click);
             // 
             // dataGridViewLevels
             // 
             this.dataGridViewLevels.AllowUserToResizeRows = false;
             this.dataGridViewLevels.BackgroundColor = System.Drawing.SystemColors.Window;
+            this.dataGridViewLevels.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
             this.dataGridViewLevels.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridViewLevels.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.ColumnLevelName,
@@ -153,12 +178,12 @@
             this.ColumnMoveDown,
             this.ColumnDelete});
             this.dataGridViewLevels.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dataGridViewLevels.Location = new System.Drawing.Point(3, 16);
+            this.dataGridViewLevels.Location = new System.Drawing.Point(0, 24);
             this.dataGridViewLevels.MultiSelect = false;
             this.dataGridViewLevels.Name = "dataGridViewLevels";
             this.dataGridViewLevels.RowHeadersVisible = false;
             this.dataGridViewLevels.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGridViewLevels.Size = new System.Drawing.Size(234, 407);
+            this.dataGridViewLevels.Size = new System.Drawing.Size(200, 402);
             this.dataGridViewLevels.TabIndex = 0;
             this.dataGridViewLevels.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewLevels_CellClick);
             this.dataGridViewLevels.CellPainting += new System.Windows.Forms.DataGridViewCellPaintingEventHandler(this.dataGridViewLevels_CellPainting);
@@ -191,27 +216,17 @@
             // 
             // splitter1
             // 
-            this.splitter1.Location = new System.Drawing.Point(244, 4);
+            this.splitter1.Location = new System.Drawing.Point(204, 4);
             this.splitter1.Name = "splitter1";
             this.splitter1.Size = new System.Drawing.Size(3, 426);
             this.splitter1.TabIndex = 1;
             this.splitter1.TabStop = false;
             // 
-            // groupBoxInputs
-            // 
-            this.groupBoxInputs.Controls.Add(this.dataGridViewInputs);
-            this.groupBoxInputs.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.groupBoxInputs.Location = new System.Drawing.Point(247, 4);
-            this.groupBoxInputs.Name = "groupBoxInputs";
-            this.groupBoxInputs.Size = new System.Drawing.Size(450, 426);
-            this.groupBoxInputs.TabIndex = 2;
-            this.groupBoxInputs.TabStop = false;
-            this.groupBoxInputs.Text = "Inputs";
-            // 
             // dataGridViewInputs
             // 
             this.dataGridViewInputs.AllowUserToResizeRows = false;
             this.dataGridViewInputs.BackgroundColor = System.Drawing.SystemColors.Window;
+            this.dataGridViewInputs.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
             this.dataGridViewInputs.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridViewInputs.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.ColumnFrame,
@@ -226,98 +241,14 @@
             this.ColumnFiller});
             this.dataGridViewInputs.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dataGridViewInputs.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnEnter;
-            this.dataGridViewInputs.Location = new System.Drawing.Point(3, 16);
+            this.dataGridViewInputs.Location = new System.Drawing.Point(0, 24);
             this.dataGridViewInputs.Name = "dataGridViewInputs";
             this.dataGridViewInputs.RowHeadersVisible = false;
             this.dataGridViewInputs.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGridViewInputs.Size = new System.Drawing.Size(444, 407);
+            this.dataGridViewInputs.Size = new System.Drawing.Size(530, 402);
             this.dataGridViewInputs.TabIndex = 1;
+            this.dataGridViewInputs.CellPainting += new System.Windows.Forms.DataGridViewCellPaintingEventHandler(this.dataGridViewInputs_CellPainting);
             this.dataGridViewInputs.RowPrePaint += new System.Windows.Forms.DataGridViewRowPrePaintEventHandler(this.dataGridViewInputs_RowPrePaint);
-            // 
-            // statusStrip
-            // 
-            this.statusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripStatusLabelProcessFound,
-            this.toolStripStatusLabelInfo});
-            this.statusStrip.Location = new System.Drawing.Point(4, 430);
-            this.statusStrip.Name = "statusStrip";
-            this.statusStrip.Size = new System.Drawing.Size(936, 22);
-            this.statusStrip.TabIndex = 2;
-            this.statusStrip.Text = "statusStrip1";
-            // 
-            // toolStripStatusLabelProcessFound
-            // 
-            this.toolStripStatusLabelProcessFound.Name = "toolStripStatusLabelProcessFound";
-            this.toolStripStatusLabelProcessFound.Size = new System.Drawing.Size(0, 17);
-            // 
-            // toolStripStatusLabelInfo
-            // 
-            this.toolStripStatusLabelInfo.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Left;
-            this.toolStripStatusLabelInfo.Name = "toolStripStatusLabelInfo";
-            this.toolStripStatusLabelInfo.Size = new System.Drawing.Size(4, 17);
-            // 
-            // splitter2
-            // 
-            this.splitter2.Dock = System.Windows.Forms.DockStyle.Right;
-            this.splitter2.Location = new System.Drawing.Point(697, 4);
-            this.splitter2.Name = "splitter2";
-            this.splitter2.Size = new System.Drawing.Size(3, 426);
-            this.splitter2.TabIndex = 3;
-            this.splitter2.TabStop = false;
-            // 
-            // groupBoxPositionHistory
-            // 
-            this.groupBoxPositionHistory.Controls.Add(this.dataGridViewPositionHistory);
-            this.groupBoxPositionHistory.Dock = System.Windows.Forms.DockStyle.Right;
-            this.groupBoxPositionHistory.Location = new System.Drawing.Point(700, 4);
-            this.groupBoxPositionHistory.Name = "groupBoxPositionHistory";
-            this.groupBoxPositionHistory.Size = new System.Drawing.Size(240, 426);
-            this.groupBoxPositionHistory.TabIndex = 2;
-            this.groupBoxPositionHistory.TabStop = false;
-            this.groupBoxPositionHistory.Text = "Position history";
-            // 
-            // dataGridViewPositionHistory
-            // 
-            this.dataGridViewPositionHistory.AllowUserToAddRows = false;
-            this.dataGridViewPositionHistory.AllowUserToDeleteRows = false;
-            this.dataGridViewPositionHistory.BackgroundColor = System.Drawing.SystemColors.Window;
-            this.dataGridViewPositionHistory.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridViewPositionHistory.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.ColumnPositionFrame,
-            this.ColumnPositionX,
-            this.ColumnPositionY,
-            this.ColumnPositionFiller});
-            this.dataGridViewPositionHistory.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dataGridViewPositionHistory.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
-            this.dataGridViewPositionHistory.Location = new System.Drawing.Point(3, 16);
-            this.dataGridViewPositionHistory.Name = "dataGridViewPositionHistory";
-            this.dataGridViewPositionHistory.RowHeadersVisible = false;
-            this.dataGridViewPositionHistory.Size = new System.Drawing.Size(234, 407);
-            this.dataGridViewPositionHistory.TabIndex = 1;
-            // 
-            // ColumnPositionFrame
-            // 
-            this.ColumnPositionFrame.HeaderText = "Frame";
-            this.ColumnPositionFrame.Name = "ColumnPositionFrame";
-            this.ColumnPositionFrame.Width = 48;
-            // 
-            // ColumnPositionX
-            // 
-            this.ColumnPositionX.HeaderText = "X and speed";
-            this.ColumnPositionX.Name = "ColumnPositionX";
-            this.ColumnPositionX.Width = 72;
-            // 
-            // ColumnPositionY
-            // 
-            this.ColumnPositionY.HeaderText = "Y and speed";
-            this.ColumnPositionY.Name = "ColumnPositionY";
-            this.ColumnPositionY.Width = 72;
-            // 
-            // ColumnPositionFiller
-            // 
-            this.ColumnPositionFiller.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.ColumnPositionFiller.HeaderText = "";
-            this.ColumnPositionFiller.Name = "ColumnPositionFiller";
             // 
             // ColumnFrame
             // 
@@ -389,29 +320,167 @@
             this.ColumnFiller.Name = "ColumnFiller";
             this.ColumnFiller.ReadOnly = true;
             // 
+            // statusStrip
+            // 
+            this.statusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripStatusLabelProcessFound,
+            this.toolStripStatusLabelInfo});
+            this.statusStrip.Location = new System.Drawing.Point(4, 430);
+            this.statusStrip.Name = "statusStrip";
+            this.statusStrip.Size = new System.Drawing.Size(936, 22);
+            this.statusStrip.TabIndex = 2;
+            this.statusStrip.Text = "statusStrip1";
+            // 
+            // toolStripStatusLabelProcessFound
+            // 
+            this.toolStripStatusLabelProcessFound.Name = "toolStripStatusLabelProcessFound";
+            this.toolStripStatusLabelProcessFound.Size = new System.Drawing.Size(0, 17);
+            // 
+            // toolStripStatusLabelInfo
+            // 
+            this.toolStripStatusLabelInfo.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Left;
+            this.toolStripStatusLabelInfo.Name = "toolStripStatusLabelInfo";
+            this.toolStripStatusLabelInfo.Size = new System.Drawing.Size(4, 17);
+            // 
+            // splitter2
+            // 
+            this.splitter2.Dock = System.Windows.Forms.DockStyle.Right;
+            this.splitter2.Location = new System.Drawing.Point(737, 4);
+            this.splitter2.Name = "splitter2";
+            this.splitter2.Size = new System.Drawing.Size(3, 426);
+            this.splitter2.TabIndex = 3;
+            this.splitter2.TabStop = false;
+            // 
+            // dataGridViewPositionHistory
+            // 
+            this.dataGridViewPositionHistory.AllowUserToAddRows = false;
+            this.dataGridViewPositionHistory.AllowUserToDeleteRows = false;
+            this.dataGridViewPositionHistory.BackgroundColor = System.Drawing.SystemColors.Window;
+            this.dataGridViewPositionHistory.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
+            this.dataGridViewPositionHistory.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridViewPositionHistory.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.ColumnPositionFrame,
+            this.ColumnPositionX,
+            this.ColumnPositionY,
+            this.ColumnPositionFiller});
+            this.dataGridViewPositionHistory.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dataGridViewPositionHistory.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
+            this.dataGridViewPositionHistory.Location = new System.Drawing.Point(0, 24);
+            this.dataGridViewPositionHistory.Name = "dataGridViewPositionHistory";
+            this.dataGridViewPositionHistory.RowHeadersVisible = false;
+            this.dataGridViewPositionHistory.Size = new System.Drawing.Size(200, 402);
+            this.dataGridViewPositionHistory.TabIndex = 1;
+            // 
+            // ColumnPositionFrame
+            // 
+            this.ColumnPositionFrame.HeaderText = "Frame";
+            this.ColumnPositionFrame.Name = "ColumnPositionFrame";
+            this.ColumnPositionFrame.Width = 48;
+            // 
+            // ColumnPositionX
+            // 
+            this.ColumnPositionX.HeaderText = "X and speed";
+            this.ColumnPositionX.Name = "ColumnPositionX";
+            this.ColumnPositionX.Width = 72;
+            // 
+            // ColumnPositionY
+            // 
+            this.ColumnPositionY.HeaderText = "Y and speed";
+            this.ColumnPositionY.Name = "ColumnPositionY";
+            this.ColumnPositionY.Width = 72;
+            // 
+            // ColumnPositionFiller
+            // 
+            this.ColumnPositionFiller.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.ColumnPositionFiller.HeaderText = "";
+            this.ColumnPositionFiller.Name = "ColumnPositionFiller";
+            // 
+            // panelLevels
+            // 
+            this.panelLevels.Controls.Add(this.dataGridViewLevels);
+            this.panelLevels.Controls.Add(this.labelLevels);
+            this.panelLevels.Dock = System.Windows.Forms.DockStyle.Left;
+            this.panelLevels.Location = new System.Drawing.Point(4, 4);
+            this.panelLevels.Name = "panelLevels";
+            this.panelLevels.Size = new System.Drawing.Size(200, 426);
+            this.panelLevels.TabIndex = 1;
+            // 
+            // labelLevels
+            // 
+            this.labelLevels.Dock = System.Windows.Forms.DockStyle.Top;
+            this.labelLevels.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelLevels.Location = new System.Drawing.Point(0, 0);
+            this.labelLevels.Name = "labelLevels";
+            this.labelLevels.Size = new System.Drawing.Size(200, 24);
+            this.labelLevels.TabIndex = 1;
+            this.labelLevels.Text = "Levels";
+            this.labelLevels.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // panelPositionHistory
+            // 
+            this.panelPositionHistory.Controls.Add(this.dataGridViewPositionHistory);
+            this.panelPositionHistory.Controls.Add(this.labelPositionHistory);
+            this.panelPositionHistory.Dock = System.Windows.Forms.DockStyle.Right;
+            this.panelPositionHistory.Location = new System.Drawing.Point(740, 4);
+            this.panelPositionHistory.Name = "panelPositionHistory";
+            this.panelPositionHistory.Size = new System.Drawing.Size(200, 426);
+            this.panelPositionHistory.TabIndex = 2;
+            // 
+            // labelPositionHistory
+            // 
+            this.labelPositionHistory.Dock = System.Windows.Forms.DockStyle.Top;
+            this.labelPositionHistory.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelPositionHistory.Location = new System.Drawing.Point(0, 0);
+            this.labelPositionHistory.Name = "labelPositionHistory";
+            this.labelPositionHistory.Size = new System.Drawing.Size(200, 24);
+            this.labelPositionHistory.TabIndex = 3;
+            this.labelPositionHistory.Text = "Position history";
+            this.labelPositionHistory.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // panelInputs
+            // 
+            this.panelInputs.Controls.Add(this.dataGridViewInputs);
+            this.panelInputs.Controls.Add(this.labelInputs);
+            this.panelInputs.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panelInputs.Location = new System.Drawing.Point(207, 4);
+            this.panelInputs.Name = "panelInputs";
+            this.panelInputs.Size = new System.Drawing.Size(530, 426);
+            this.panelInputs.TabIndex = 2;
+            // 
+            // labelInputs
+            // 
+            this.labelInputs.Dock = System.Windows.Forms.DockStyle.Top;
+            this.labelInputs.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelInputs.Location = new System.Drawing.Point(0, 0);
+            this.labelInputs.Name = "labelInputs";
+            this.labelInputs.Size = new System.Drawing.Size(530, 24);
+            this.labelInputs.TabIndex = 2;
+            this.labelInputs.Text = "Inputs";
+            this.labelInputs.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(944, 456);
-            this.Controls.Add(this.groupBoxInputs);
+            this.Controls.Add(this.panelInputs);
             this.Controls.Add(this.splitter1);
-            this.Controls.Add(this.groupBoxLevels);
+            this.Controls.Add(this.panelLevels);
             this.Controls.Add(this.splitter2);
-            this.Controls.Add(this.groupBoxPositionHistory);
+            this.Controls.Add(this.panelPositionHistory);
             this.Controls.Add(this.statusStrip);
             this.Menu = this.mainMenu;
             this.Name = "MainForm";
             this.Padding = new System.Windows.Forms.Padding(4);
             this.ShowIcon = false;
-            this.groupBoxLevels.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewLevels)).EndInit();
-            this.groupBoxInputs.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewInputs)).EndInit();
             this.statusStrip.ResumeLayout(false);
             this.statusStrip.PerformLayout();
-            this.groupBoxPositionHistory.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewPositionHistory)).EndInit();
+            this.panelLevels.ResumeLayout(false);
+            this.panelPositionHistory.ResumeLayout(false);
+            this.panelInputs.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -425,9 +494,7 @@
         private System.Windows.Forms.MenuItem menuItemOpen;
         private System.Windows.Forms.MenuItem menuItemSave;
         private System.Windows.Forms.MenuItem menuItemSaveAs;
-        private System.Windows.Forms.GroupBox groupBoxLevels;
         private System.Windows.Forms.Splitter splitter1;
-        private System.Windows.Forms.GroupBox groupBoxInputs;
         private System.Windows.Forms.DataGridView dataGridViewLevels;
         private System.Windows.Forms.DataGridView dataGridViewInputs;
         private System.Windows.Forms.DataGridViewTextBoxColumn ColumnLevelName;
@@ -438,7 +505,6 @@
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabelProcessFound;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabelInfo;
         private System.Windows.Forms.Splitter splitter2;
-        private System.Windows.Forms.GroupBox groupBoxPositionHistory;
         private System.Windows.Forms.DataGridView dataGridViewPositionHistory;
         private System.Windows.Forms.DataGridViewTextBoxColumn ColumnPositionFrame;
         private System.Windows.Forms.DataGridViewTextBoxColumn ColumnPositionX;
@@ -456,5 +522,15 @@
         private System.Windows.Forms.DataGridViewCheckBoxColumn ColumnRun;
         private System.Windows.Forms.DataGridViewTextBoxColumn ColumnGun;
         private System.Windows.Forms.DataGridViewTextBoxColumn ColumnFiller;
+        private System.Windows.Forms.Panel panelLevels;
+        private System.Windows.Forms.Label labelLevels;
+        private System.Windows.Forms.Panel panelPositionHistory;
+        private System.Windows.Forms.Panel panelInputs;
+        private System.Windows.Forms.Label labelPositionHistory;
+        private System.Windows.Forms.Label labelInputs;
+        private System.Windows.Forms.MenuItem View;
+        private System.Windows.Forms.MenuItem menuItemTheme;
+        private System.Windows.Forms.MenuItem menuItemDefaultTheme;
+        private System.Windows.Forms.MenuItem menuItemDarkTheme;
     }
 }

@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -22,6 +23,8 @@ namespace Jazz2TAS
         private int _CurrentHash;
         private int _Index;
         private ushort[] _Positions = new ushort[256];
+        private Color _CurrentFrameBackgroundColor = Color.FromArgb(255, 0, 0);
+        private Color _TableTickBackgroundColor = Color.FromArgb(192, 192, 192);
 
         private IntPtr _TASInputsPointer;
         private IntPtr _PositionHistoryPointer;
@@ -29,6 +32,48 @@ namespace Jazz2TAS
         public BindingList<Level> Levels => dataGridViewLevels.DataSource as BindingList<Level>;
         public BindingList<Inputs> Inputs => dataGridViewInputs.DataSource as BindingList<Inputs>;
         public Level SelectedLevel => dataGridViewLevels.SelectedRows.Count > 0 ? dataGridViewLevels.SelectedRows[0].DataBoundItem as Level : null;
+        public Theme Theme
+        {
+            get
+            {
+                var theme = new Theme();
+                theme.BackgroundColor = (BackColor.ToArgb() & 0xFFFFFF).ToString("X6");
+                theme.TextColor = (labelLevels.ForeColor.ToArgb() & 0xFFFFFF).ToString("X6");
+                theme.TableCurrentFrameBackgroundColor = (_CurrentFrameBackgroundColor.ToArgb() & 0xFFFFFF).ToString("X6");
+                theme.TableTickBackgroundColor = (_TableTickBackgroundColor.ToArgb() & 0xFFFFFF).ToString("X6");
+                theme.TableBackgroundColor = (dataGridViewLevels.BackgroundColor.ToArgb() & 0xFFFFFF).ToString("X6");
+                theme.TableGridColor = (dataGridViewLevels.GridColor.ToArgb() & 0xFFFFFF).ToString("X6");
+                theme.TableTextColor = (dataGridViewLevels.DefaultCellStyle.ForeColor.ToArgb() & 0xFFFFFF).ToString("X6");
+                theme.TableSelectionBackgroundColor = (dataGridViewLevels.DefaultCellStyle.SelectionBackColor.ToArgb() & 0xFFFFFF).ToString("X6");
+                theme.TableSelectionTextColor = (dataGridViewLevels.DefaultCellStyle.SelectionForeColor.ToArgb() & 0xFFFFFF).ToString("X6");
+                theme.TableHeaderBackgroundColor = (dataGridViewLevels.ColumnHeadersDefaultCellStyle.BackColor.ToArgb() & 0xFFFFFF).ToString("X6");
+                theme.TableHeaderTextColor = (dataGridViewLevels.ColumnHeadersDefaultCellStyle.ForeColor.ToArgb() & 0xFFFFFF).ToString("X6");
+                return theme;
+            }
+            set
+            {
+                BackColor = value.GetBackgroundColor();
+                statusStrip.BackColor = BackColor;
+                labelLevels.ForeColor = value.GetTextColor();
+                labelInputs.ForeColor = labelLevels.ForeColor;
+                labelPositionHistory.ForeColor = labelLevels.ForeColor;
+                toolStripStatusLabelInfo.ForeColor = labelLevels.ForeColor;
+                toolStripStatusLabelProcessFound.ForeColor = labelLevels.ForeColor;
+                _CurrentFrameBackgroundColor = value.GetTableCurrentFrameBackgroundColor();
+                _TableTickBackgroundColor = value.GetTableTickBackgroundColor();
+                foreach (var dataGridView in new[] { dataGridViewLevels, dataGridViewInputs, dataGridViewPositionHistory })
+                {
+                    dataGridView.BackgroundColor = value.GetTableBackgroundColor();
+                    dataGridView.GridColor = value.GetTableGridColor();
+                    dataGridView.DefaultCellStyle.BackColor = dataGridView.BackgroundColor;
+                    dataGridView.DefaultCellStyle.ForeColor = value.GetTableTextColor();
+                    dataGridView.DefaultCellStyle.SelectionBackColor = value.GetTableSelectionBackgroundColor();
+                    dataGridView.DefaultCellStyle.SelectionForeColor = value.GetTableSelectionTextColor();
+                    dataGridView.ColumnHeadersDefaultCellStyle.BackColor = value.GetTableHeaderBackgroundColor();
+                    dataGridView.ColumnHeadersDefaultCellStyle.ForeColor = value.GetTableHeaderTextColor();
+                }
+            }
+        }
 
         public MainForm()
         {
@@ -39,11 +84,17 @@ namespace Jazz2TAS
             dataGridViewInputs.Visible = false;
             dataGridViewInputs.AutoGenerateColumns = false;
 
+            dataGridViewLevels.EnableHeadersVisualStyles = false;
+            dataGridViewInputs.EnableHeadersVisualStyles = false;
+            dataGridViewPositionHistory.EnableHeadersVisualStyles = false;
+
             Text = ProductName + " " + ProductVersion;
 
             _ProcessThreadExit = new ManualResetEvent(false);
             _ProcessThread = new Thread(ProcessThreadMethod);
             _ProcessThread.Start();
+
+            Theme = Theme.DefaultTheme;
         }
 
         protected override void OnActivated(EventArgs e)
@@ -460,9 +511,12 @@ namespace Jazz2TAS
         {
             if (e.RowIndex == _Index)
             {
-                e.Graphics.FillRectangle(Brushes.Red, e.RowBounds);
-                e.PaintCells(e.ClipBounds, DataGridViewPaintParts.All & ~DataGridViewPaintParts.Background);
-                e.Handled = true;
+                using (var brush = new SolidBrush(_CurrentFrameBackgroundColor))
+                {
+                    e.Graphics.FillRectangle(brush, e.RowBounds);
+                    e.PaintCells(e.ClipBounds, DataGridViewPaintParts.All & ~DataGridViewPaintParts.Background);
+                    e.Handled = true;
+                }
             }
         }
 
@@ -481,6 +535,35 @@ namespace Jazz2TAS
                     }
                 }
             }
+        }
+
+        private void dataGridViewInputs_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
+        {
+            if (e.RowIndex < 0)
+                return;
+
+            if (e.ColumnIndex > 0)
+            {
+                if(e.Value != null && e.Value.GetType() == typeof(bool) && (bool)e.Value)
+                {
+                    using (var brush = new SolidBrush(_TableTickBackgroundColor))
+                    {
+                        e.Graphics.FillRectangle(brush, e.CellBounds);
+                        e.Paint(e.ClipBounds, DataGridViewPaintParts.All & ~DataGridViewPaintParts.Background);
+                        e.Handled = true;
+                    }
+                }
+            }
+        }
+
+        private void menuItemDefaultTheme_Click(object sender, EventArgs e)
+        {
+            Theme = Theme.DefaultTheme;
+        }
+
+        private void menuItemDarkTheme_Click(object sender, EventArgs e)
+        {
+            Theme = Theme.DarkTheme;
         }
     }
 }
