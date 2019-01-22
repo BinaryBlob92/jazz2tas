@@ -572,7 +572,7 @@ namespace Jazz2TAS
                         {
                             // No input, just use what we've been using
                             Inputs unshoot = new Jazz2TAS.Inputs(currentInputs) ;
-                            unshoot.Shoot = true ;
+                            unshoot.Shoot = false ;
                             data.Insert(currentIndex+1, unshoot) ;
                         }
 
