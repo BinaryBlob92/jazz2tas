@@ -523,7 +523,7 @@ namespace Jazz2TAS
                             {
                                 // We might've skipped multiple frames, find the highest frame that's < our current
                                 currentIndex++ ;
-                                nextInput = data[currentIndex[currentIndex+1] ;
+                                nextInput = data[currentIndex+1] ;
                                 frame = nextInput.Frame ;
                             }
 
