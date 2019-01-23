@@ -507,48 +507,63 @@ namespace Jazz2TAS
                         //  Shoot  //
                         //---------//
 
-                        // Check the next input to see if it falls on or around our frame window
-                        Inputs nextInput = data[currentIndex+1] ;
-                        var frame = nextInput.Frame ;
-
-                        if(frame == currentFrame)
+                        if (data.Count() == currentIndex + 1)
                         {
-                            // The next input falls on the frame we want to shoot, hijack the input
-                            nextInput.Shoot = true ;
-                            currentInputs = nextInput ;
-                        }
-                        else if(frame < currentFrame)
-                        {
-                            while(data[currentIndex+1].Frame <= currentFrame)
-                            {
-                                // We might've skipped multiple frames, find the highest frame that's < our current
-                                currentIndex++ ;
-                                nextInput = data[currentIndex+1] ;
-                                frame = nextInput.Frame ;
-                            }
-
-                            // Oh no, we better check if the new frame is right on the frame we want
-                            if(frame == currentFrame)
-                            {
-                                // It was, our check was worth it! Hijack the input
-                                nextInput.Shoot = true ;
-                                currentInputs = nextInput ;
-                            }
-                            else
-                            {
-                                // The input fell between our last shot and this one, use it as our baseline
-                                currentInputs = nextInput ;
-                                Inputs shoot = new Jazz2TAS.Inputs(currentInputs) ;
-                                shoot.Shoot = true ;
-                                data.Insert(currentIndex+1, shoot) ;
-                            }
+                            // I'm at the end of the list, just make the next input
+                            Inputs shoot = new Jazz2TAS.Inputs(currentInputs);
+                            shoot.Shoot = true;
+                            shoot.Frame = currentFrame;
+                            data.Add(shoot);
                         }
                         else
                         {
-                            // No new inputs, just use what we've been using
-                            Inputs shoot = new Jazz2TAS.Inputs(currentInputs) ;
-                            shoot.Shoot = true ;
-                            data.Insert(currentIndex+1, shoot) ;
+                            // Check the next input to see if it falls on or around our frame window
+                            Inputs nextInput = data[currentIndex + 1];
+                            var frame = nextInput.Frame;
+
+                            if (frame == currentFrame)
+                            {
+                                // The next input falls on the frame we want to shoot, hijack the input
+                                nextInput.Shoot = true;
+                                currentInputs = nextInput;
+                            }
+                            else if (frame < currentFrame)
+                            {
+                                while (currentIndex+1 < data.Count() && data[currentIndex + 1].Frame <= currentFrame)
+                                {
+                                    // We might've skipped multiple frames, find the highest frame that's < our current
+                                    nextInput = data[currentIndex + 1];
+                                    currentIndex++;
+                                    frame = nextInput.Frame;
+                                }
+
+                                // Oh no, we better check if the new frame is right on the frame we want
+                                if (frame == currentFrame)
+                                {
+                                    // It was, our check was worth it! Hijack the input
+                                    nextInput.Shoot = true;
+                                    currentInputs = nextInput;
+                                    // if we hit the frame exactly, drop the last index increment from the loop
+                                    currentIndex--;
+                                }
+                                else
+                                {
+                                    // The input fell between our last shot and this one, use it as our baseline
+                                    currentInputs = nextInput;
+                                    Inputs shoot = new Jazz2TAS.Inputs(currentInputs);
+                                    shoot.Shoot = true;
+                                    shoot.Frame = currentFrame;
+                                    data.Insert(currentIndex + 1, shoot);
+                                }
+                            }
+                            else
+                            {
+                                // No new inputs, just use what we've been using
+                                Inputs shoot = new Jazz2TAS.Inputs(currentInputs);
+                                shoot.Shoot = true;
+                                shoot.Frame = currentFrame;
+                                data.Insert(currentIndex + 1, shoot);
+                            }
                         }
 
                         // Increment the index
@@ -558,22 +573,35 @@ namespace Jazz2TAS
                         //  Un-Shoot  //
                         //------------//
 
-                        // Check the next input to see if it falls on or around our frame window
-                        nextInput = data[currentIndex+1] ;
-                        frame = nextInput.Frame ;
-
-                        if(frame == currentFrame+1)
+                        if (data.Count() == currentIndex + 1)
                         {
-                            // The next input falls on the frame we want to unshoot, hijack the input
-                            nextInput.Shoot = false ;
-                            currentInputs = nextInput ;
+                            // I'm at the end of the list, just make the next input
+                            Inputs unshoot = new Jazz2TAS.Inputs(currentInputs);
+                            unshoot.Shoot = false;
+                            unshoot.Frame = currentFrame + 1;
+                            data.Add(unshoot);
                         }
                         else
                         {
-                            // No input, just use what we've been using
-                            Inputs unshoot = new Jazz2TAS.Inputs(currentInputs) ;
-                            unshoot.Shoot = false ;
-                            data.Insert(currentIndex+1, unshoot) ;
+
+                            // Check the next input to see if it falls on or around our frame window
+                            Inputs nextInput = data[currentIndex + 1];
+                            var frame = nextInput.Frame;
+
+                            if (frame == currentFrame + 1)
+                            {
+                                // The next input falls on the frame we want to unshoot, hijack the input
+                                nextInput.Shoot = false;
+                                currentInputs = nextInput;
+                            }
+                            else
+                            {
+                                // No input, just use what we've been using
+                                Inputs unshoot = new Jazz2TAS.Inputs(currentInputs);
+                                unshoot.Shoot = false;
+                                unshoot.Frame = currentFrame + 1;
+                                data.Insert(currentIndex + 1, unshoot);
+                            }
                         }
 
                         // Increment the index and frame
