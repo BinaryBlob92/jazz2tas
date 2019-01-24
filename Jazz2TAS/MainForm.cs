@@ -55,12 +55,11 @@ namespace Jazz2TAS
             set
             {
                 BackColor = value.GetBackgroundColor();
-                statusStrip.BackColor = BackColor;
+                panelBottom.BackColor = BackColor;
                 labelLevels.ForeColor = value.GetTextColor();
                 labelInputs.ForeColor = labelLevels.ForeColor;
                 labelPositionHistory.ForeColor = labelLevels.ForeColor;
-                toolStripStatusLabelInfo.ForeColor = labelLevels.ForeColor;
-                toolStripStatusLabelProcessFound.ForeColor = labelLevels.ForeColor;
+                labelInfo.ForeColor = labelLevels.ForeColor;
                 _CurrentFrameBackgroundColor = value.GetTableCurrentFrameBackgroundColor();
                 _TableTickBackgroundColor = value.GetTableTickBackgroundColor();
                 foreach (var dataGridView in new[] { dataGridViewLevels, dataGridViewInputs, dataGridViewPositionHistory })
@@ -475,7 +474,7 @@ namespace Jazz2TAS
                     WinApi.ReadProcessMemory(_Process.Handle, _Process.MainModule.BaseAddress + 0x1F3844, out finished, 2, out bytesRead);
                     WinApi.ReadProcessMemory(_Process.Handle, _IsPausedPointer, out paused, 2, out bytesRead);
 
-                    labelInfo.Text = string.Format("Jazz2.exe process found\r\nPos: {0} x {1}, Frame: {2}", x, y, frame);
+                    labelInfo.Text = string.Format("Position: {0} x {1}\r\nFrame: {2}", x, y, frame);
 
                     if (paused == 1)
                         buttonPlayPause.Text = "Play";
@@ -589,7 +588,6 @@ namespace Jazz2TAS
         private void menuItemDarkTheme_Click(object sender, EventArgs e)
         {
             Theme = Theme.DarkTheme;
-            }
         }
 
         private void buttonPlayPause_Click(object sender, EventArgs e)

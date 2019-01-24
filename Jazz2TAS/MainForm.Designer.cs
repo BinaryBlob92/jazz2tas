@@ -58,9 +58,6 @@
             this.ColumnRun = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.ColumnGun = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ColumnFiller = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.statusStrip = new System.Windows.Forms.StatusStrip();
-            this.toolStripStatusLabelProcessFound = new System.Windows.Forms.ToolStripStatusLabel();
-            this.toolStripStatusLabelInfo = new System.Windows.Forms.ToolStripStatusLabel();
             this.splitter2 = new System.Windows.Forms.Splitter();
             this.dataGridViewPositionHistory = new System.Windows.Forms.DataGridView();
             this.ColumnPositionFrame = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -73,13 +70,17 @@
             this.labelPositionHistory = new System.Windows.Forms.Label();
             this.panelInputs = new System.Windows.Forms.Panel();
             this.labelInputs = new System.Windows.Forms.Label();
+            this.panelBottom = new System.Windows.Forms.Panel();
+            this.labelInfo = new System.Windows.Forms.Label();
+            this.buttonPlayPause = new System.Windows.Forms.Button();
+            this.buttonFrameAdvance = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewLevels)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewInputs)).BeginInit();
-            this.statusStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewPositionHistory)).BeginInit();
             this.panelLevels.SuspendLayout();
             this.panelPositionHistory.SuspendLayout();
             this.panelInputs.SuspendLayout();
+            this.panelBottom.SuspendLayout();
             this.SuspendLayout();
             // 
             // mainMenu
@@ -183,7 +184,7 @@
             this.dataGridViewLevels.Name = "dataGridViewLevels";
             this.dataGridViewLevels.RowHeadersVisible = false;
             this.dataGridViewLevels.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGridViewLevels.Size = new System.Drawing.Size(200, 402);
+            this.dataGridViewLevels.Size = new System.Drawing.Size(200, 384);
             this.dataGridViewLevels.TabIndex = 0;
             this.dataGridViewLevels.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewLevels_CellClick);
             this.dataGridViewLevels.CellPainting += new System.Windows.Forms.DataGridViewCellPaintingEventHandler(this.dataGridViewLevels_CellPainting);
@@ -218,7 +219,7 @@
             // 
             this.splitter1.Location = new System.Drawing.Point(204, 4);
             this.splitter1.Name = "splitter1";
-            this.splitter1.Size = new System.Drawing.Size(3, 426);
+            this.splitter1.Size = new System.Drawing.Size(3, 408);
             this.splitter1.TabIndex = 1;
             this.splitter1.TabStop = false;
             // 
@@ -245,7 +246,7 @@
             this.dataGridViewInputs.Name = "dataGridViewInputs";
             this.dataGridViewInputs.RowHeadersVisible = false;
             this.dataGridViewInputs.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGridViewInputs.Size = new System.Drawing.Size(530, 402);
+            this.dataGridViewInputs.Size = new System.Drawing.Size(530, 384);
             this.dataGridViewInputs.TabIndex = 1;
             this.dataGridViewInputs.CellPainting += new System.Windows.Forms.DataGridViewCellPaintingEventHandler(this.dataGridViewInputs_CellPainting);
             this.dataGridViewInputs.RowPrePaint += new System.Windows.Forms.DataGridViewRowPrePaintEventHandler(this.dataGridViewInputs_RowPrePaint);
@@ -320,34 +321,12 @@
             this.ColumnFiller.Name = "ColumnFiller";
             this.ColumnFiller.ReadOnly = true;
             // 
-            // statusStrip
-            // 
-            this.statusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripStatusLabelProcessFound,
-            this.toolStripStatusLabelInfo});
-            this.statusStrip.Location = new System.Drawing.Point(4, 430);
-            this.statusStrip.Name = "statusStrip";
-            this.statusStrip.Size = new System.Drawing.Size(936, 22);
-            this.statusStrip.TabIndex = 2;
-            this.statusStrip.Text = "statusStrip1";
-            // 
-            // toolStripStatusLabelProcessFound
-            // 
-            this.toolStripStatusLabelProcessFound.Name = "toolStripStatusLabelProcessFound";
-            this.toolStripStatusLabelProcessFound.Size = new System.Drawing.Size(0, 17);
-            // 
-            // toolStripStatusLabelInfo
-            // 
-            this.toolStripStatusLabelInfo.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Left;
-            this.toolStripStatusLabelInfo.Name = "toolStripStatusLabelInfo";
-            this.toolStripStatusLabelInfo.Size = new System.Drawing.Size(4, 17);
-            // 
             // splitter2
             // 
             this.splitter2.Dock = System.Windows.Forms.DockStyle.Right;
             this.splitter2.Location = new System.Drawing.Point(737, 4);
             this.splitter2.Name = "splitter2";
-            this.splitter2.Size = new System.Drawing.Size(3, 426);
+            this.splitter2.Size = new System.Drawing.Size(3, 408);
             this.splitter2.TabIndex = 3;
             this.splitter2.TabStop = false;
             // 
@@ -368,7 +347,7 @@
             this.dataGridViewPositionHistory.Location = new System.Drawing.Point(0, 24);
             this.dataGridViewPositionHistory.Name = "dataGridViewPositionHistory";
             this.dataGridViewPositionHistory.RowHeadersVisible = false;
-            this.dataGridViewPositionHistory.Size = new System.Drawing.Size(200, 402);
+            this.dataGridViewPositionHistory.Size = new System.Drawing.Size(200, 384);
             this.dataGridViewPositionHistory.TabIndex = 1;
             // 
             // ColumnPositionFrame
@@ -402,7 +381,7 @@
             this.panelLevels.Dock = System.Windows.Forms.DockStyle.Left;
             this.panelLevels.Location = new System.Drawing.Point(4, 4);
             this.panelLevels.Name = "panelLevels";
-            this.panelLevels.Size = new System.Drawing.Size(200, 426);
+            this.panelLevels.Size = new System.Drawing.Size(200, 408);
             this.panelLevels.TabIndex = 1;
             // 
             // labelLevels
@@ -423,7 +402,7 @@
             this.panelPositionHistory.Dock = System.Windows.Forms.DockStyle.Right;
             this.panelPositionHistory.Location = new System.Drawing.Point(740, 4);
             this.panelPositionHistory.Name = "panelPositionHistory";
-            this.panelPositionHistory.Size = new System.Drawing.Size(200, 426);
+            this.panelPositionHistory.Size = new System.Drawing.Size(200, 408);
             this.panelPositionHistory.TabIndex = 2;
             // 
             // labelPositionHistory
@@ -444,7 +423,7 @@
             this.panelInputs.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelInputs.Location = new System.Drawing.Point(207, 4);
             this.panelInputs.Name = "panelInputs";
-            this.panelInputs.Size = new System.Drawing.Size(530, 426);
+            this.panelInputs.Size = new System.Drawing.Size(530, 408);
             this.panelInputs.TabIndex = 2;
             // 
             // labelInputs
@@ -458,6 +437,48 @@
             this.labelInputs.Text = "Inputs";
             this.labelInputs.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
+            // panelBottom
+            // 
+            this.panelBottom.Controls.Add(this.buttonFrameAdvance);
+            this.panelBottom.Controls.Add(this.buttonPlayPause);
+            this.panelBottom.Controls.Add(this.labelInfo);
+            this.panelBottom.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.panelBottom.Location = new System.Drawing.Point(4, 412);
+            this.panelBottom.Name = "panelBottom";
+            this.panelBottom.Size = new System.Drawing.Size(936, 40);
+            this.panelBottom.TabIndex = 3;
+            // 
+            // labelInfo
+            // 
+            this.labelInfo.Dock = System.Windows.Forms.DockStyle.Left;
+            this.labelInfo.Location = new System.Drawing.Point(0, 0);
+            this.labelInfo.Name = "labelInfo";
+            this.labelInfo.Size = new System.Drawing.Size(256, 40);
+            this.labelInfo.TabIndex = 0;
+            this.labelInfo.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // buttonPlayPause
+            // 
+            this.buttonPlayPause.Dock = System.Windows.Forms.DockStyle.Left;
+            this.buttonPlayPause.Location = new System.Drawing.Point(256, 0);
+            this.buttonPlayPause.Name = "buttonPlayPause";
+            this.buttonPlayPause.Size = new System.Drawing.Size(64, 40);
+            this.buttonPlayPause.TabIndex = 1;
+            this.buttonPlayPause.Text = "Pause";
+            this.buttonPlayPause.UseVisualStyleBackColor = true;
+            this.buttonPlayPause.Click += new System.EventHandler(this.buttonPlayPause_Click);
+            // 
+            // buttonFrameAdvance
+            // 
+            this.buttonFrameAdvance.Dock = System.Windows.Forms.DockStyle.Left;
+            this.buttonFrameAdvance.Location = new System.Drawing.Point(320, 0);
+            this.buttonFrameAdvance.Name = "buttonFrameAdvance";
+            this.buttonFrameAdvance.Size = new System.Drawing.Size(64, 40);
+            this.buttonFrameAdvance.TabIndex = 2;
+            this.buttonFrameAdvance.Text = ">>";
+            this.buttonFrameAdvance.UseVisualStyleBackColor = true;
+            this.buttonFrameAdvance.Click += new System.EventHandler(this.buttonFrameAdvance_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -468,21 +489,19 @@
             this.Controls.Add(this.panelLevels);
             this.Controls.Add(this.splitter2);
             this.Controls.Add(this.panelPositionHistory);
-            this.Controls.Add(this.statusStrip);
+            this.Controls.Add(this.panelBottom);
             this.Menu = this.mainMenu;
             this.Name = "MainForm";
             this.Padding = new System.Windows.Forms.Padding(4);
             this.ShowIcon = false;
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewLevels)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewInputs)).EndInit();
-            this.statusStrip.ResumeLayout(false);
-            this.statusStrip.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewPositionHistory)).EndInit();
             this.panelLevels.ResumeLayout(false);
             this.panelPositionHistory.ResumeLayout(false);
             this.panelInputs.ResumeLayout(false);
+            this.panelBottom.ResumeLayout(false);
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
@@ -501,9 +520,6 @@
         private System.Windows.Forms.DataGridViewButtonColumn ColumnMoveUp;
         private System.Windows.Forms.DataGridViewButtonColumn ColumnMoveDown;
         private System.Windows.Forms.DataGridViewButtonColumn ColumnDelete;
-        private System.Windows.Forms.StatusStrip statusStrip;
-        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabelProcessFound;
-        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabelInfo;
         private System.Windows.Forms.Splitter splitter2;
         private System.Windows.Forms.DataGridView dataGridViewPositionHistory;
         private System.Windows.Forms.DataGridViewTextBoxColumn ColumnPositionFrame;
@@ -532,5 +548,9 @@
         private System.Windows.Forms.MenuItem menuItemTheme;
         private System.Windows.Forms.MenuItem menuItemDefaultTheme;
         private System.Windows.Forms.MenuItem menuItemDarkTheme;
+        private System.Windows.Forms.Panel panelBottom;
+        private System.Windows.Forms.Label labelInfo;
+        private System.Windows.Forms.Button buttonFrameAdvance;
+        private System.Windows.Forms.Button buttonPlayPause;
     }
 }
