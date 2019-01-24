@@ -28,6 +28,8 @@ namespace Jazz2TAS
 
         private IntPtr _TASInputsPointer;
         private IntPtr _PositionHistoryPointer;
+        private IntPtr _PauseFramePointer;
+        private IntPtr _IsPausedPointer;
 
         public BindingList<Level> Levels => dataGridViewLevels.DataSource as BindingList<Level>;
         public BindingList<Inputs> Inputs => dataGridViewInputs.DataSource as BindingList<Inputs>;
@@ -326,11 +328,17 @@ namespace Jazz2TAS
 
         private void InitializeTASFunctions()
         {
-            _TASInputsPointer = WinApi.VirtualAllocEx(_Process.Handle, IntPtr.Zero, 0xFFFF + 0xFF, 0x1000, 0x04);
+            _TASInputsPointer = WinApi.VirtualAllocEx(_Process.Handle, IntPtr.Zero, 0x10000 + 0x100 + 0x04, 0x1000, 0x04);
             TransferInputs();
 
-            _PositionHistoryPointer = _TASInputsPointer + 0xFFFF;
-            WinApi.WriteProcessMemory(_Process.Handle, _PositionHistoryPointer, new byte[256], 256, out int bytesWritten);
+            _PositionHistoryPointer = _TASInputsPointer + 0x10000;
+            WinApi.WriteProcessMemory(_Process.Handle, _PositionHistoryPointer, new byte[0x100], 0x100, out int bytesWritten);
+
+            _PauseFramePointer = _PositionHistoryPointer + 0x100;
+            _IsPausedPointer = _Process.MainModule.BaseAddress + 0xf349e;
+            WinApi.WriteProcessMemory(_Process.Handle, _PauseFramePointer, new byte[] { 0xFF, 0xFF, 0xFF, 0xFF }, 0x04, out bytesWritten);
+            WinApi.WriteProcessMemory(_Process.Handle, _Process.MainModule.BaseAddress + 0x3F753, BitConverter.GetBytes((int)_IsPausedPointer), 4, out bytesWritten);
+            WinApi.WriteProcessMemory(_Process.Handle, _Process.MainModule.BaseAddress + 0x8C956, new byte[] { 0x90, 0x90, 0x90, 0x90, 0x90 }, 5, out bytesWritten);
 
             byte[] playbackFunctionData = new byte[]
             {
@@ -354,6 +362,10 @@ namespace Jazz2TAS
                 0xC1, 0xE3, 0x10, // shl ebx,10
                 0x66, 0x8B, 0x1D, 0x00, 0x00, 0x00, 0x00, // mov bx,[Jazz2.exe+1C856E]
                 0x89, 0x1F, // mov [edi],ebx
+                0xA1, 0x00, 0x00, 0x00, 0x00, // mov eax,[_PauseFramePointer]
+                0x3B, 0x05, 0x00, 0x00, 0x00, 0x00, // cmp eax,[Jazz2.exe+1ADC20]
+                0x75, 0x0A, // jne 00000000
+                0xC7, 0x05, 0x00, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00, // mov [_IsPausedPointer],00000001
                 0x58, // pop eax
                 0x5B, // pop ebx
                 0x5F, // pop edi
@@ -366,6 +378,9 @@ namespace Jazz2TAS
             BitConverter.GetBytes((int)_PositionHistoryPointer).CopyTo(playbackFunctionData, 46);
             BitConverter.GetBytes((int)_Process.MainModule.BaseAddress + 0x1C8572).CopyTo(playbackFunctionData, 54);
             BitConverter.GetBytes((int)_Process.MainModule.BaseAddress + 0x1C856E).CopyTo(playbackFunctionData, 64);
+            BitConverter.GetBytes((int)_PauseFramePointer).CopyTo(playbackFunctionData, 71);
+            BitConverter.GetBytes((int)_Process.MainModule.BaseAddress + 0x1ADC20).CopyTo(playbackFunctionData, 77);
+            BitConverter.GetBytes((int)_IsPausedPointer).CopyTo(playbackFunctionData, 85);
 
             byte[] resetFunctionData = new byte[]
             {
@@ -448,20 +463,24 @@ namespace Jazz2TAS
             {
                 if (_Process == null || _Process.HasExited)
                 {
-                    toolStripStatusLabelProcessFound.Text = "Jazz2.exe process not found";
-                    toolStripStatusLabelInfo.Text = null;
+                    labelInfo.Text = "Jazz2.exe process not found";
                 }
                 else
                 {
                     int bytesRead;
-                    ushort x, y, frame, finished;
-                    WinApi.ReadProcessMemory(_Process.Handle, _Process.MainModule.BaseAddress + 0x1C856E, out x, 4, out bytesRead);
-                    WinApi.ReadProcessMemory(_Process.Handle, _Process.MainModule.BaseAddress + 0x1C8572, out y, 4, out bytesRead);
-                    WinApi.ReadProcessMemory(_Process.Handle, _Process.MainModule.BaseAddress + 0x1ADC20, out frame, 4, out bytesRead);
-                    WinApi.ReadProcessMemory(_Process.Handle, _Process.MainModule.BaseAddress + 0x1F3844, out finished, 4, out bytesRead);
+                    ushort x, y, frame, finished, paused;
+                    WinApi.ReadProcessMemory(_Process.Handle, _Process.MainModule.BaseAddress + 0x1C856E, out x, 2, out bytesRead);
+                    WinApi.ReadProcessMemory(_Process.Handle, _Process.MainModule.BaseAddress + 0x1C8572, out y, 2, out bytesRead);
+                    WinApi.ReadProcessMemory(_Process.Handle, _Process.MainModule.BaseAddress + 0x1ADC20, out frame, 2, out bytesRead);
+                    WinApi.ReadProcessMemory(_Process.Handle, _Process.MainModule.BaseAddress + 0x1F3844, out finished, 2, out bytesRead);
+                    WinApi.ReadProcessMemory(_Process.Handle, _IsPausedPointer, out paused, 2, out bytesRead);
 
-                    toolStripStatusLabelProcessFound.Text = "Jazz2.exe process found";
-                    toolStripStatusLabelInfo.Text = string.Format("Pos: {0} x {1}, Frame: {2}", x, y, frame);
+                    labelInfo.Text = string.Format("Jazz2.exe process found\r\nPos: {0} x {1}, Frame: {2}", x, y, frame);
+
+                    if (paused == 1)
+                        buttonPlayPause.Text = "Play";
+                    else
+                        buttonPlayPause.Text = "Pause";
 
                     if (finished == 0 && frame != _PreviousFrame && Inputs != null && Inputs.Count > 0)
                     {
@@ -570,6 +589,34 @@ namespace Jazz2TAS
         private void menuItemDarkTheme_Click(object sender, EventArgs e)
         {
             Theme = Theme.DarkTheme;
+            }
+        }
+
+        private void buttonPlayPause_Click(object sender, EventArgs e)
+        {
+            if (_Process == null || _Process.HasExited)
+                return;
+
+            ushort paused;
+            WinApi.ReadProcessMemory(_Process.Handle, _IsPausedPointer, out paused, 2, out int byteCount);
+
+            WinApi.WriteProcessMemory(_Process.Handle, _PauseFramePointer, new byte[] { 0xFF, 0xFF, 0xFF, 0xFF }, 4, out byteCount);
+            if (paused == 1)
+                WinApi.WriteProcessMemory(_Process.Handle, _IsPausedPointer, new byte[] { 0x00, 0x00, 0x00, 0x00 }, 4, out byteCount);
+            else
+                WinApi.WriteProcessMemory(_Process.Handle, _IsPausedPointer, new byte[] { 0x01, 0x00, 0x00, 0x00 }, 4, out byteCount);
+        }
+
+        private void buttonFrameAdvance_Click(object sender, EventArgs e)
+        {
+            if (_Process == null || _Process.HasExited)
+                return;
+
+            ushort frame;
+            WinApi.ReadProcessMemory(_Process.Handle, _Process.MainModule.BaseAddress + 0x1ADC20, out frame, 4, out int byteCount);
+
+            WinApi.WriteProcessMemory(_Process.Handle, _PauseFramePointer, BitConverter.GetBytes(frame + 1), 0x04, out byteCount);
+            WinApi.WriteProcessMemory(_Process.Handle, _IsPausedPointer, BitConverter.GetBytes(0), 4, out byteCount);
         }
     }
 }
