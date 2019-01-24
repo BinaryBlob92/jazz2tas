@@ -321,7 +321,7 @@ namespace Jazz2TAS
 
             dataGridViewInputs.EndEdit();
             var tasInputs = SelectedLevel.GetJazz2InputsBytes();
-            WinApi.WriteProcessMemory(_Process.Handle, _TASInputsPointer, tasInputs, tasInputs.Length * 2, out int bytesWritten);
+            WinApi.WriteProcessMemory(_Process.Handle, _TASInputsPointer, tasInputs, tasInputs.Length, out int bytesWritten);
         }
 
         private void InitializeTASFunctions()
