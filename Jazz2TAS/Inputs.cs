@@ -154,6 +154,18 @@ namespace Jazz2TAS
             _PreviousInputs = this;
         }
 
+        public Inputs(Inputs toClone)
+        {
+            _Frame = toClone._Frame;
+            _Right = toClone._Right;
+            _Left = toClone._Left;
+            _Up = toClone._Up;
+            _Down = toClone._Down;
+            _Jump = toClone._Jump;
+            _Shoot = toClone._Shoot;
+            _Run = toClone._Run;
+        }
+
         protected virtual void OnPropertyChanged(PropertyChangedEventArgs e)
         {
             if (PropertyChanged != null)

@@ -41,6 +41,7 @@
             this.menuItemTheme = new System.Windows.Forms.MenuItem();
             this.menuItemDefaultTheme = new System.Windows.Forms.MenuItem();
             this.menuItemDarkTheme = new System.Windows.Forms.MenuItem();
+            this.menuItem1 = new System.Windows.Forms.MenuItem();
             this.dataGridViewLevels = new System.Windows.Forms.DataGridView();
             this.ColumnLevelName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ColumnMoveUp = new System.Windows.Forms.DataGridViewButtonColumn();
@@ -131,7 +132,8 @@
             // 
             this.menuItemEdit.Index = 1;
             this.menuItemEdit.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
-            this.menuItemOffset});
+            this.menuItemOffset,
+            this.menuItem1});
             this.menuItemEdit.Text = "Edit";
             // 
             // menuItemOffset
@@ -148,6 +150,13 @@
             this.View.Text = "View";
             // 
             // menuItemTheme
+            // menuItem1
+            // 
+            this.menuItem1.Index = 1;
+            this.menuItem1.Text = "Shoot...";
+            this.menuItem1.Click += new System.EventHandler(this.menuItemShoot_Click);
+            // 
+            // groupBoxLevels
             // 
             this.menuItemTheme.Index = 0;
             this.menuItemTheme.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
@@ -294,6 +303,34 @@
             this.ColumnJump.Width = 40;
             // 
             // ColumnShoot
+            // 
+            this.ColumnShoot.DataPropertyName = "Shoot";
+            this.ColumnShoot.HeaderText = "Shoot";
+            this.ColumnShoot.Name = "ColumnShoot";
+            this.ColumnShoot.Width = 40;
+            // 
+            // ColumnRun
+            // 
+            this.ColumnRun.DataPropertyName = "Run";
+            this.ColumnRun.HeaderText = "Run";
+            this.ColumnRun.Name = "ColumnRun";
+            this.ColumnRun.Width = 40;
+            // 
+            // ColumnGun
+            // 
+            this.ColumnGun.DataPropertyName = "Gun";
+            this.ColumnGun.HeaderText = "Gun";
+            this.ColumnGun.Name = "ColumnGun";
+            this.ColumnGun.Width = 40;
+            // 
+            // ColumnFiller
+            // 
+            this.ColumnFiller.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.ColumnFiller.HeaderText = "";
+            this.ColumnFiller.Name = "ColumnFiller";
+            this.ColumnFiller.ReadOnly = true;
+            // 
+            // statusStrip
             // 
             this.ColumnShoot.DataPropertyName = "Shoot";
             this.ColumnShoot.HeaderText = "Shoot";
@@ -538,6 +575,7 @@
         private System.Windows.Forms.DataGridViewCheckBoxColumn ColumnRun;
         private System.Windows.Forms.DataGridViewTextBoxColumn ColumnGun;
         private System.Windows.Forms.DataGridViewTextBoxColumn ColumnFiller;
+        private System.Windows.Forms.MenuItem menuItem1;
         private System.Windows.Forms.Panel panelLevels;
         private System.Windows.Forms.Label labelLevels;
         private System.Windows.Forms.Panel panelPositionHistory;
