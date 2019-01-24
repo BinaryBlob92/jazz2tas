@@ -484,6 +484,9 @@ namespace Jazz2TAS
 
         private void menuItemShoot_Click(object sender, EventArgs e)
         {
+            if (dataGridViewInputs.SelectedRows.Count == 0 || Inputs == null)
+                return;
+
             using (var dialog = new ShootForm())
             {
                 if (dialog.ShowDialog() == DialogResult.OK)
@@ -493,8 +496,8 @@ namespace Jazz2TAS
                     DataGridViewRow currentBaseline = dataGridViewInputs.SelectedRows[0] ;
                     var currentInputs = currentBaseline.DataBoundItem as Inputs ;
 
-                    // Grab the data list so we can insert the inputs
-                    BindingList<Inputs> data = (BindingList<Inputs>)dataGridViewInputs.DataSource;
+                    if (currentInputs == null)
+                        return;
 
                     // Store the current index and frame
                     // We start the index at selected-1 to trick the i=0 iteration of the loop
@@ -507,18 +510,18 @@ namespace Jazz2TAS
                         //  Shoot  //
                         //---------//
 
-                        if (data.Count() == currentIndex + 1)
+                        if (Inputs.Count == currentIndex + 1)
                         {
                             // I'm at the end of the list, just make the next input
                             Inputs shoot = new Jazz2TAS.Inputs(currentInputs);
                             shoot.Shoot = true;
                             shoot.Frame = currentFrame;
-                            data.Add(shoot);
+                            Inputs.Add(shoot);
                         }
                         else
                         {
                             // Check the next input to see if it falls on or around our frame window
-                            Inputs nextInput = data[currentIndex + 1];
+                            Inputs nextInput = Inputs[currentIndex + 1];
                             var frame = nextInput.Frame;
 
                             if (frame == currentFrame)
@@ -529,10 +532,10 @@ namespace Jazz2TAS
                             }
                             else if (frame < currentFrame)
                             {
-                                while (currentIndex+1 < data.Count() && data[currentIndex + 1].Frame <= currentFrame)
+                                while (currentIndex+1 < Inputs.Count && Inputs[currentIndex + 1].Frame <= currentFrame)
                                 {
                                     // We might've skipped multiple frames, find the highest frame that's < our current
-                                    nextInput = data[currentIndex + 1];
+                                    nextInput = Inputs[currentIndex + 1];
                                     currentIndex++;
                                     frame = nextInput.Frame;
                                 }
@@ -553,7 +556,7 @@ namespace Jazz2TAS
                                     Inputs shoot = new Jazz2TAS.Inputs(currentInputs);
                                     shoot.Shoot = true;
                                     shoot.Frame = currentFrame;
-                                    data.Insert(currentIndex + 1, shoot);
+                                    Inputs.Insert(currentIndex + 1, shoot);
                                 }
                             }
                             else
@@ -562,7 +565,7 @@ namespace Jazz2TAS
                                 Inputs shoot = new Jazz2TAS.Inputs(currentInputs);
                                 shoot.Shoot = true;
                                 shoot.Frame = currentFrame;
-                                data.Insert(currentIndex + 1, shoot);
+                                Inputs.Insert(currentIndex + 1, shoot);
                             }
                         }
 
@@ -573,19 +576,19 @@ namespace Jazz2TAS
                         //  Un-Shoot  //
                         //------------//
 
-                        if (data.Count() == currentIndex + 1)
+                        if (Inputs.Count == currentIndex + 1)
                         {
                             // I'm at the end of the list, just make the next input
                             Inputs unshoot = new Jazz2TAS.Inputs(currentInputs);
                             unshoot.Shoot = false;
                             unshoot.Frame = currentFrame + 1;
-                            data.Add(unshoot);
+                            Inputs.Add(unshoot);
                         }
                         else
                         {
 
                             // Check the next input to see if it falls on or around our frame window
-                            Inputs nextInput = data[currentIndex + 1];
+                            Inputs nextInput = Inputs[currentIndex + 1];
                             var frame = nextInput.Frame;
 
                             if (frame == currentFrame + 1)
@@ -600,7 +603,7 @@ namespace Jazz2TAS
                                 Inputs unshoot = new Jazz2TAS.Inputs(currentInputs);
                                 unshoot.Shoot = false;
                                 unshoot.Frame = currentFrame + 1;
-                                data.Insert(currentIndex + 1, unshoot);
+                                Inputs.Insert(currentIndex + 1, unshoot);
                             }
                         }
 
