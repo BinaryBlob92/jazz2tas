@@ -468,7 +468,7 @@ namespace Jazz2TAS
                 {
                     int bytesRead;
                     ushort x, y, frame, finished, paused;
-                    WinApi.ReadProcessMemory(_Process.Handle, _Process.MainModule.BaseAddress + 0x1C856E, out x, 2, out bytesRead);
+                     WinApi.ReadProcessMemory(_Process.Handle, _Process.MainModule.BaseAddress + 0x1C856E, out x, 2, out bytesRead);
                     WinApi.ReadProcessMemory(_Process.Handle, _Process.MainModule.BaseAddress + 0x1C8572, out y, 2, out bytesRead);
                     WinApi.ReadProcessMemory(_Process.Handle, _Process.MainModule.BaseAddress + 0x1ADC20, out frame, 2, out bytesRead);
                     WinApi.ReadProcessMemory(_Process.Handle, _Process.MainModule.BaseAddress + 0x1F3844, out finished, 2, out bytesRead);
@@ -483,10 +483,10 @@ namespace Jazz2TAS
 
                     if (finished == 0 && frame != _PreviousFrame && Inputs != null && Inputs.Count > 0)
                     {
-                        int index = _Index;
+                        int index = Math.Min(_Index, Inputs.Count - 1);
                         int gun = 0;
 
-                        while (index >= Inputs.Count || (index > 0 && Inputs[index].Frame > frame))
+                        while (index > 0 && Inputs[index].Frame > frame)
                             index--;
 
                         while (index < Inputs.Count && Inputs[index].Frame < frame)
@@ -501,7 +501,7 @@ namespace Jazz2TAS
 
                         _PreviousFrame = frame;
 
-                        if (--index != _Index)
+                        if (--index >= 0 && index != _Index)
                         {
                             int oldIndex = _Index;
                             _Index = index;
