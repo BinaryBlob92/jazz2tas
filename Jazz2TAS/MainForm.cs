@@ -269,7 +269,7 @@ namespace Jazz2TAS
                         newHash ^= level.LevelName.GetHashCode();
                     foreach (var inputs in level.Inputs)
                     {
-                        newHash += inputs.Frame ^ inputs.ToJazz2Inputs() ^ inputs.Gun.GetHashCode();
+                        newHash += inputs.Frame ^ inputs.GetInputs().Sum(x => x) ^ inputs.Gun.GetHashCode();
                     }
                 }
             }

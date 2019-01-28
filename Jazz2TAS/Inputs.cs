@@ -10,6 +10,7 @@ namespace Jazz2TAS
         public event PropertyChangedEventHandler PropertyChanged;
 
         private static Inputs _PreviousInputs;
+
         private int _Frame;
         private bool _Right;
         private bool _Left;
@@ -171,8 +172,8 @@ namespace Jazz2TAS
             if (PropertyChanged != null)
                 PropertyChanged(this, e);
         }
-
-        public short ToJazz2Inputs()
+        
+        public virtual short[] GetInputs()
         {
             short inputs = 0;
             if (_Right) inputs |= 0x0001;
@@ -182,7 +183,7 @@ namespace Jazz2TAS
             if (_Jump) inputs |= 0x0800;
             if (_Shoot) inputs |= 0x0200;
             if (_Run) inputs |= 0x1000;
-            return inputs;
+            return new short[] { inputs };
         }
 
         public int CompareTo(Inputs other)
