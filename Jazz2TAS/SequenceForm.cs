@@ -44,6 +44,23 @@ namespace Jazz2TAS
                 return;
             }
 
+            int maxFrame = _SequenceInputs
+                .Select(x => x.Frame)
+                .DefaultIfEmpty()
+                .Max();
+
+            if (maxFrame >= length)
+            {
+                if (MessageBox.Show("Inputs are specified at frames greater than the length. Do you want to change the length to " + (maxFrame + 1) + "?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                {
+                    length = maxFrame + 1;
+                }
+                else
+                {
+                    return;
+                }
+            }
+
             if (_Inputs.Sequence == null)
             {
                 _Inputs.Sequence = new InputSequence();

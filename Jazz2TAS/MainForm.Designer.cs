@@ -49,6 +49,17 @@
             this.ColumnDelete = new System.Windows.Forms.DataGridViewButtonColumn();
             this.splitter1 = new System.Windows.Forms.Splitter();
             this.dataGridViewInputs = new System.Windows.Forms.DataGridView();
+            this.ColumnFrame = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ColumnLeft = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.ColumnRight = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.ColumnUp = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.ColumnDown = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.ColumnJump = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.ColumnShoot = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.ColumnRun = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.ColumnGun = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ColumnSequence = new System.Windows.Forms.DataGridViewButtonColumn();
+            this.ColumnFiller = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.splitter2 = new System.Windows.Forms.Splitter();
             this.dataGridViewPositionHistory = new System.Windows.Forms.DataGridView();
             this.ColumnPositionFrame = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -65,17 +76,6 @@
             this.buttonFrameAdvance = new System.Windows.Forms.Button();
             this.buttonPlayPause = new System.Windows.Forms.Button();
             this.labelInfo = new System.Windows.Forms.Label();
-            this.ColumnFrame = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ColumnLeft = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.ColumnRight = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.ColumnUp = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.ColumnDown = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.ColumnJump = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.ColumnShoot = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.ColumnRun = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.ColumnGun = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ColumnSequence = new System.Windows.Forms.DataGridViewButtonColumn();
-            this.ColumnFiller = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewLevels)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewInputs)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewPositionHistory)).BeginInit();
@@ -262,6 +262,83 @@
             this.dataGridViewInputs.CellPainting += new System.Windows.Forms.DataGridViewCellPaintingEventHandler(this.dataGridViewInputs_CellPainting);
             this.dataGridViewInputs.RowPrePaint += new System.Windows.Forms.DataGridViewRowPrePaintEventHandler(this.dataGridViewInputs_RowPrePaint);
             // 
+            // ColumnFrame
+            // 
+            this.ColumnFrame.DataPropertyName = "Frame";
+            this.ColumnFrame.HeaderText = "Frame";
+            this.ColumnFrame.Name = "ColumnFrame";
+            this.ColumnFrame.Width = 40;
+            // 
+            // ColumnLeft
+            // 
+            this.ColumnLeft.DataPropertyName = "Left";
+            this.ColumnLeft.HeaderText = "Left";
+            this.ColumnLeft.Name = "ColumnLeft";
+            this.ColumnLeft.Width = 40;
+            // 
+            // ColumnRight
+            // 
+            this.ColumnRight.DataPropertyName = "Right";
+            this.ColumnRight.HeaderText = "Right";
+            this.ColumnRight.Name = "ColumnRight";
+            this.ColumnRight.Width = 40;
+            // 
+            // ColumnUp
+            // 
+            this.ColumnUp.DataPropertyName = "Up";
+            this.ColumnUp.HeaderText = "Up";
+            this.ColumnUp.Name = "ColumnUp";
+            this.ColumnUp.Width = 40;
+            // 
+            // ColumnDown
+            // 
+            this.ColumnDown.DataPropertyName = "Down";
+            this.ColumnDown.HeaderText = "Down";
+            this.ColumnDown.Name = "ColumnDown";
+            this.ColumnDown.Width = 40;
+            // 
+            // ColumnJump
+            // 
+            this.ColumnJump.DataPropertyName = "Jump";
+            this.ColumnJump.HeaderText = "Jump";
+            this.ColumnJump.Name = "ColumnJump";
+            this.ColumnJump.Width = 40;
+            // 
+            // ColumnShoot
+            // 
+            this.ColumnShoot.DataPropertyName = "Shoot";
+            this.ColumnShoot.HeaderText = "Shoot";
+            this.ColumnShoot.Name = "ColumnShoot";
+            this.ColumnShoot.Width = 40;
+            // 
+            // ColumnRun
+            // 
+            this.ColumnRun.DataPropertyName = "Run";
+            this.ColumnRun.HeaderText = "Run";
+            this.ColumnRun.Name = "ColumnRun";
+            this.ColumnRun.Width = 40;
+            // 
+            // ColumnGun
+            // 
+            this.ColumnGun.DataPropertyName = "Gun";
+            this.ColumnGun.HeaderText = "Gun";
+            this.ColumnGun.Name = "ColumnGun";
+            this.ColumnGun.Width = 40;
+            // 
+            // ColumnSequence
+            // 
+            this.ColumnSequence.DataPropertyName = "SequenceDescription";
+            this.ColumnSequence.HeaderText = "Sequence";
+            this.ColumnSequence.Name = "ColumnSequence";
+            this.ColumnSequence.Width = 80;
+            // 
+            // ColumnFiller
+            // 
+            this.ColumnFiller.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.ColumnFiller.HeaderText = "";
+            this.ColumnFiller.Name = "ColumnFiller";
+            this.ColumnFiller.ReadOnly = true;
+            // 
             // splitter2
             // 
             this.splitter2.Dock = System.Windows.Forms.DockStyle.Right;
@@ -419,83 +496,6 @@
             this.labelInfo.Size = new System.Drawing.Size(256, 40);
             this.labelInfo.TabIndex = 0;
             this.labelInfo.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // ColumnFrame
-            // 
-            this.ColumnFrame.DataPropertyName = "Frame";
-            this.ColumnFrame.HeaderText = "Frame";
-            this.ColumnFrame.Name = "ColumnFrame";
-            this.ColumnFrame.Width = 40;
-            // 
-            // ColumnLeft
-            // 
-            this.ColumnLeft.DataPropertyName = "Left";
-            this.ColumnLeft.HeaderText = "Left";
-            this.ColumnLeft.Name = "ColumnLeft";
-            this.ColumnLeft.Width = 40;
-            // 
-            // ColumnRight
-            // 
-            this.ColumnRight.DataPropertyName = "Right";
-            this.ColumnRight.HeaderText = "Right";
-            this.ColumnRight.Name = "ColumnRight";
-            this.ColumnRight.Width = 40;
-            // 
-            // ColumnUp
-            // 
-            this.ColumnUp.DataPropertyName = "Up";
-            this.ColumnUp.HeaderText = "Up";
-            this.ColumnUp.Name = "ColumnUp";
-            this.ColumnUp.Width = 40;
-            // 
-            // ColumnDown
-            // 
-            this.ColumnDown.DataPropertyName = "Down";
-            this.ColumnDown.HeaderText = "Down";
-            this.ColumnDown.Name = "ColumnDown";
-            this.ColumnDown.Width = 40;
-            // 
-            // ColumnJump
-            // 
-            this.ColumnJump.DataPropertyName = "Jump";
-            this.ColumnJump.HeaderText = "Jump";
-            this.ColumnJump.Name = "ColumnJump";
-            this.ColumnJump.Width = 40;
-            // 
-            // ColumnShoot
-            // 
-            this.ColumnShoot.DataPropertyName = "Shoot";
-            this.ColumnShoot.HeaderText = "Shoot";
-            this.ColumnShoot.Name = "ColumnShoot";
-            this.ColumnShoot.Width = 40;
-            // 
-            // ColumnRun
-            // 
-            this.ColumnRun.DataPropertyName = "Run";
-            this.ColumnRun.HeaderText = "Run";
-            this.ColumnRun.Name = "ColumnRun";
-            this.ColumnRun.Width = 40;
-            // 
-            // ColumnGun
-            // 
-            this.ColumnGun.DataPropertyName = "Gun";
-            this.ColumnGun.HeaderText = "Gun";
-            this.ColumnGun.Name = "ColumnGun";
-            this.ColumnGun.Width = 40;
-            // 
-            // ColumnSequence
-            // 
-            this.ColumnSequence.DataPropertyName = "SequenceDescription";
-            this.ColumnSequence.HeaderText = "Sequence";
-            this.ColumnSequence.Name = "ColumnSequence";
-            this.ColumnSequence.Width = 80;
-            // 
-            // ColumnFiller
-            // 
-            this.ColumnFiller.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.ColumnFiller.HeaderText = "";
-            this.ColumnFiller.Name = "ColumnFiller";
-            this.ColumnFiller.ReadOnly = true;
             // 
             // MainForm
             // 
