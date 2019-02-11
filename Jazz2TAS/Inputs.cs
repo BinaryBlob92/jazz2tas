@@ -138,6 +138,10 @@ namespace Jazz2TAS
                 }
             }
         }
+        [XmlElement]
+        public InputSequence Sequence { get; set; }
+
+        public string SequenceDescription => Sequence == null ? "-" : string.Format("{0} x {1}", Sequence.Length, Sequence.Repeats);
 
         public Inputs()
         {
@@ -173,8 +177,20 @@ namespace Jazz2TAS
                 PropertyChanged(this, e);
         }
         
-        public virtual short[] GetInputs()
+        public virtual short[] GetInputs(int nextInputsFrame)
         {
+            short[] output;
+
+            if (Sequence == null)
+            {
+                output = new short[nextInputsFrame - _Frame];
+            }
+            else
+            {
+                output = new short[Math.Max(Sequence.Length * Sequence.Repeats, nextInputsFrame - _Frame)];
+                Sequence.GetInputs().CopyTo(output, 0);
+            }
+
             short inputs = 0;
             if (_Right) inputs |= 0x0001;
             if (_Left) inputs |= 0x000F;
@@ -183,7 +199,27 @@ namespace Jazz2TAS
             if (_Jump) inputs |= 0x0800;
             if (_Shoot) inputs |= 0x0200;
             if (_Run) inputs |= 0x1000;
-            return new short[] { inputs };
+
+            for (int i = 0; i < nextInputsFrame - _Frame; i++)
+                output[i] |= inputs;
+
+            return output;
+        }
+
+        public int GetCalculatedHash()
+        {
+            int hash = 0;
+            hash += _Frame << 16;
+            hash += _Gun.HasValue ? _Gun.Value : 0xF0000;
+            hash += Sequence == null ? 0xF00000 : Sequence.GetCalculatedHash();
+            if (_Right) hash |= 0x0001;
+            if (_Left) hash |= 0x000F;
+            if (_Down) hash |= 0x0010;
+            if (_Up) hash |= 0x00F0;
+            if (_Jump) hash |= 0x0800;
+            if (_Shoot) hash |= 0x0200;
+            if (_Run) hash |= 0x1000;
+            return hash;
         }
 
         public int CompareTo(Inputs other)

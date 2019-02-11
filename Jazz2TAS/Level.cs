@@ -18,28 +18,24 @@ namespace Jazz2TAS
             Inputs = new List<Inputs>();
         }
 
-        public short[] GetJazz2InputsBytes()
+        public short[] GetJazz2Inputs()
         {
             short[] output = new short[0x7FFF];
-            short index = 0;
-            short previousInputs = 0;
-            foreach (var inputs in Inputs.OrderBy(x => x.Frame))
-            {
-                while (index < inputs.Frame)
-                    output[index++] = previousInputs;
 
-                var newInputs = inputs.GetInputs();
-                for (short i = 0; i<newInputs.Length; i++)
+            var orderedInputs = Inputs
+                .OrderBy(x => x.Frame)
+                .ToArray();
+
+            for (int i = 0; i < orderedInputs.Length; i++)
+            {
+                int nextInputsFrame = i + 1 < orderedInputs.Length ? orderedInputs[i + 1].Frame : output.Length;
+                int frame = orderedInputs[i].Frame;
+                foreach (var inputs in orderedInputs[i].GetInputs(nextInputsFrame))
                 {
-                    previousInputs = newInputs[i];
-                    output[(index + i)] |= previousInputs;
+                    output[frame++] |= inputs;
                 }
             }
 
-            while (index + 1 < output.Length)
-            {
-                output[index++] |= previousInputs;
-            }
             return output;
         }
     }

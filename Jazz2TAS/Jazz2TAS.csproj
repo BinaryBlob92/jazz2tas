@@ -43,12 +43,19 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Inputs.cs" />
+    <Compile Include="InputSequence.cs" />
     <Compile Include="Level.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SequenceForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SequenceForm.Designer.cs">
+      <DependentUpon>SequenceForm.cs</DependentUpon>
     </Compile>
     <Compile Include="ShootForm.cs">
       <SubType>Form</SubType>
@@ -75,6 +82,9 @@
   <ItemGroup>
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SequenceForm.resx">
+      <DependentUpon>SequenceForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ShootForm.resx">
       <DependentUpon>ShootForm.cs</DependentUpon>
