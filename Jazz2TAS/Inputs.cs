@@ -141,7 +141,7 @@ namespace Jazz2TAS
         [XmlElement]
         public InputSequence Sequence { get; set; }
 
-        public string SequenceDescription => Sequence == null ? "-" : string.Format("{0} x {1}", Sequence.Length, Sequence.Repeats);
+        public string SequenceDescription => Sequence == null ? "-" : string.Format("{0}: {1} x {2} => {3}", Sequence.Name, Sequence.Length, Sequence.Repeats, Frame + Sequence.Length * Sequence.Repeats);
 
         public Inputs()
         {
