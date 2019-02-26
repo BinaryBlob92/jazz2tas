@@ -37,11 +37,12 @@
             this.menuItemSaveAs = new System.Windows.Forms.MenuItem();
             this.menuItemEdit = new System.Windows.Forms.MenuItem();
             this.menuItemOffset = new System.Windows.Forms.MenuItem();
+            this.menuItem1 = new System.Windows.Forms.MenuItem();
+            this.menuInsert = new System.Windows.Forms.MenuItem();
             this.View = new System.Windows.Forms.MenuItem();
             this.menuItemTheme = new System.Windows.Forms.MenuItem();
             this.menuItemDefaultTheme = new System.Windows.Forms.MenuItem();
             this.menuItemDarkTheme = new System.Windows.Forms.MenuItem();
-            this.menuItem1 = new System.Windows.Forms.MenuItem();
             this.dataGridViewLevels = new System.Windows.Forms.DataGridView();
             this.ColumnLevelName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ColumnMoveUp = new System.Windows.Forms.DataGridViewButtonColumn();
@@ -72,9 +73,9 @@
             this.panelInputs = new System.Windows.Forms.Panel();
             this.labelInputs = new System.Windows.Forms.Label();
             this.panelBottom = new System.Windows.Forms.Panel();
-            this.labelInfo = new System.Windows.Forms.Label();
-            this.buttonPlayPause = new System.Windows.Forms.Button();
             this.buttonFrameAdvance = new System.Windows.Forms.Button();
+            this.buttonPlayPause = new System.Windows.Forms.Button();
+            this.labelInfo = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewLevels)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewInputs)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewPositionHistory)).BeginInit();
@@ -133,7 +134,8 @@
             this.menuItemEdit.Index = 1;
             this.menuItemEdit.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
             this.menuItemOffset,
-            this.menuItem1});
+            this.menuItem1,
+            this.menuInsert});
             this.menuItemEdit.Text = "Edit";
             // 
             // menuItemOffset
@@ -141,6 +143,18 @@
             this.menuItemOffset.Index = 0;
             this.menuItemOffset.Text = "Offset selected inputs...";
             this.menuItemOffset.Click += new System.EventHandler(this.menuItemOffset_Click);
+            // 
+            // menuItem1
+            // 
+            this.menuItem1.Index = 1;
+            this.menuItem1.Text = "Shoot...";
+            this.menuItem1.Click += new System.EventHandler(this.menuItemShoot_Click);
+            // 
+            // menuInsert
+            // 
+            this.menuInsert.Index = 2;
+            this.menuInsert.Text = "Insert...";
+            this.menuInsert.Click += new System.EventHandler(this.menuInsert_Click);
             // 
             // View
             // 
@@ -150,13 +164,6 @@
             this.View.Text = "View";
             // 
             // menuItemTheme
-            // menuItem1
-            // 
-            this.menuItem1.Index = 1;
-            this.menuItem1.Text = "Shoot...";
-            this.menuItem1.Click += new System.EventHandler(this.menuItemShoot_Click);
-            // 
-            // groupBoxLevels
             // 
             this.menuItemTheme.Index = 0;
             this.menuItemTheme.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
@@ -330,34 +337,6 @@
             this.ColumnFiller.Name = "ColumnFiller";
             this.ColumnFiller.ReadOnly = true;
             // 
-            // statusStrip
-            // 
-            this.ColumnShoot.DataPropertyName = "Shoot";
-            this.ColumnShoot.HeaderText = "Shoot";
-            this.ColumnShoot.Name = "ColumnShoot";
-            this.ColumnShoot.Width = 40;
-            // 
-            // ColumnRun
-            // 
-            this.ColumnRun.DataPropertyName = "Run";
-            this.ColumnRun.HeaderText = "Run";
-            this.ColumnRun.Name = "ColumnRun";
-            this.ColumnRun.Width = 40;
-            // 
-            // ColumnGun
-            // 
-            this.ColumnGun.DataPropertyName = "Gun";
-            this.ColumnGun.HeaderText = "Gun";
-            this.ColumnGun.Name = "ColumnGun";
-            this.ColumnGun.Width = 40;
-            // 
-            // ColumnFiller
-            // 
-            this.ColumnFiller.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.ColumnFiller.HeaderText = "";
-            this.ColumnFiller.Name = "ColumnFiller";
-            this.ColumnFiller.ReadOnly = true;
-            // 
             // splitter2
             // 
             this.splitter2.Dock = System.Windows.Forms.DockStyle.Right;
@@ -485,14 +464,16 @@
             this.panelBottom.Size = new System.Drawing.Size(936, 40);
             this.panelBottom.TabIndex = 3;
             // 
-            // labelInfo
+            // buttonFrameAdvance
             // 
-            this.labelInfo.Dock = System.Windows.Forms.DockStyle.Left;
-            this.labelInfo.Location = new System.Drawing.Point(0, 0);
-            this.labelInfo.Name = "labelInfo";
-            this.labelInfo.Size = new System.Drawing.Size(256, 40);
-            this.labelInfo.TabIndex = 0;
-            this.labelInfo.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.buttonFrameAdvance.Dock = System.Windows.Forms.DockStyle.Left;
+            this.buttonFrameAdvance.Location = new System.Drawing.Point(320, 0);
+            this.buttonFrameAdvance.Name = "buttonFrameAdvance";
+            this.buttonFrameAdvance.Size = new System.Drawing.Size(64, 40);
+            this.buttonFrameAdvance.TabIndex = 2;
+            this.buttonFrameAdvance.Text = ">>";
+            this.buttonFrameAdvance.UseVisualStyleBackColor = true;
+            this.buttonFrameAdvance.Click += new System.EventHandler(this.buttonFrameAdvance_Click);
             // 
             // buttonPlayPause
             // 
@@ -505,16 +486,14 @@
             this.buttonPlayPause.UseVisualStyleBackColor = true;
             this.buttonPlayPause.Click += new System.EventHandler(this.buttonPlayPause_Click);
             // 
-            // buttonFrameAdvance
+            // labelInfo
             // 
-            this.buttonFrameAdvance.Dock = System.Windows.Forms.DockStyle.Left;
-            this.buttonFrameAdvance.Location = new System.Drawing.Point(320, 0);
-            this.buttonFrameAdvance.Name = "buttonFrameAdvance";
-            this.buttonFrameAdvance.Size = new System.Drawing.Size(64, 40);
-            this.buttonFrameAdvance.TabIndex = 2;
-            this.buttonFrameAdvance.Text = ">>";
-            this.buttonFrameAdvance.UseVisualStyleBackColor = true;
-            this.buttonFrameAdvance.Click += new System.EventHandler(this.buttonFrameAdvance_Click);
+            this.labelInfo.Dock = System.Windows.Forms.DockStyle.Left;
+            this.labelInfo.Location = new System.Drawing.Point(0, 0);
+            this.labelInfo.Name = "labelInfo";
+            this.labelInfo.Size = new System.Drawing.Size(256, 40);
+            this.labelInfo.TabIndex = 0;
+            this.labelInfo.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // MainForm
             // 
@@ -590,5 +569,6 @@
         private System.Windows.Forms.Label labelInfo;
         private System.Windows.Forms.Button buttonFrameAdvance;
         private System.Windows.Forms.Button buttonPlayPause;
+        private System.Windows.Forms.MenuItem menuInsert;
     }
 }

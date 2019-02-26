@@ -752,11 +752,23 @@ namespace Jazz2TAS
             }
         }
 
-        private void menuInsert(object sender, EventArgs e)
+        private void menuInsert_Click(object sender, EventArgs e)
         {
-            DataGridViewRow insertAt = dataGridViewInputs.SelectedRows[0] ;
-            // I don't think inserting blank rows will be happy, so just default them to the selected row
-            Inputs.Insert(insertAt.Index, new Jazz2TAS.Inputs((insertAt.DataBoundItem as Inputs)));
+            if (dataGridViewInputs.SelectedRows.Count == 0 || Inputs == null)
+                return;
+
+            using (var dialog = new InsertForm())
+            {
+                if (dialog.ShowDialog() == DialogResult.OK)
+                {
+                    DataGridViewRow insertAt = dataGridViewInputs.SelectedRows[0];
+                    for (var i = 0; i < dialog.Insert; i++)
+                    {
+                        // I don't think inserting blank rows will be happy, so just default them to the selected row
+                        Inputs.Insert(insertAt.Index, new Jazz2TAS.Inputs((insertAt.DataBoundItem as Inputs)));
+                    }
+                }
+            }
         }
     }
 }
