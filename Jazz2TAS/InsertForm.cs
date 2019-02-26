@@ -32,10 +32,5 @@ namespace Jazz2TAS
                 MessageBox.Show(textBoxInsert.Text + " can't be interpreted as an integer.", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-
-        private void labelOffset_Click(object sender, EventArgs e)
-        {
-
-        }
     }
 }
