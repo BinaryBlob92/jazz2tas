@@ -751,5 +751,12 @@ namespace Jazz2TAS
                 }
             }
         }
+
+        private void menuInsert(object sender, EventArgs e)
+        {
+            DataGridViewRow insertAt = dataGridViewInputs.SelectedRows[0] ;
+            // I don't think inserting blank rows will be happy, so just default them to the selected row
+            Inputs.Insert(insertAt.Index, new Jazz2TAS.Inputs((insertAt.DataBoundItem as Inputs)));
+        }
     }
 }
