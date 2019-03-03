@@ -649,7 +649,7 @@ namespace Jazz2TAS
                         if (Inputs.Count == currentIndex + 1)
                         {
                             // I'm at the end of the list, just make the next input
-                            Inputs shoot = new Jazz2TAS.Inputs(currentInputs);
+                            Inputs shoot = (Inputs)currentInputs.Clone();
                             shoot.Shoot = true;
                             shoot.Frame = currentFrame;
                             Inputs.Add(shoot);
@@ -689,7 +689,7 @@ namespace Jazz2TAS
                                 {
                                     // The input fell between our last shot and this one, use it as our baseline
                                     currentInputs = nextInput;
-                                    Inputs shoot = new Jazz2TAS.Inputs(currentInputs);
+                                    Inputs shoot = (Inputs)currentInputs.Clone();
                                     shoot.Shoot = true;
                                     shoot.Frame = currentFrame;
                                     Inputs.Insert(currentIndex + 1, shoot);
@@ -698,7 +698,7 @@ namespace Jazz2TAS
                             else
                             {
                                 // No new inputs, just use what we've been using
-                                Inputs shoot = new Jazz2TAS.Inputs(currentInputs);
+                                Inputs shoot = (Inputs)currentInputs.Clone();
                                 shoot.Shoot = true;
                                 shoot.Frame = currentFrame;
                                 Inputs.Insert(currentIndex + 1, shoot);
@@ -715,7 +715,7 @@ namespace Jazz2TAS
                         if (Inputs.Count == currentIndex + 1)
                         {
                             // I'm at the end of the list, just make the next input
-                            Inputs unshoot = new Jazz2TAS.Inputs(currentInputs);
+                            Inputs unshoot = (Inputs)currentInputs.Clone();
                             unshoot.Shoot = false;
                             unshoot.Frame = currentFrame + 1;
                             Inputs.Add(unshoot);
@@ -736,7 +736,7 @@ namespace Jazz2TAS
                             else
                             {
                                 // No input, just use what we've been using
-                                Inputs unshoot = new Jazz2TAS.Inputs(currentInputs);
+                                Inputs unshoot = (Inputs)currentInputs.Clone();
                                 unshoot.Shoot = false;
                                 unshoot.Frame = currentFrame + 1;
                                 Inputs.Insert(currentIndex + 1, unshoot);

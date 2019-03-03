@@ -5,7 +5,7 @@ using System.Xml.Serialization;
 namespace Jazz2TAS
 {
     [XmlType]
-    public class Inputs : INotifyPropertyChanged, IComparable<Inputs>
+    public class Inputs : INotifyPropertyChanged, IComparable<Inputs>, ICloneable
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -20,6 +20,7 @@ namespace Jazz2TAS
         private bool _Shoot;
         private bool _Run;
         private int? _Gun;
+        private InputSequence _Sequence;
 
         [XmlAttribute]
         public int Frame
@@ -139,9 +140,20 @@ namespace Jazz2TAS
             }
         }
         [XmlElement]
-        public InputSequence Sequence { get; set; }
+        public InputSequence Sequence
+        {
+            get => _Sequence;
+            set
+            {
+                if (value != _Sequence)
+                {
+                    _Sequence = value;
+                    OnPropertyChanged(new PropertyChangedEventArgs("Sequence"));
+                }
+            }
+        }
 
-        public string SequenceDescription => Sequence == null ? "-" : string.Format("{0}: {1} x {2} => {3}", Sequence.Name, Sequence.Length, Sequence.Repeats, Frame + Sequence.Length * Sequence.Repeats);
+        public string SequenceDescription => Sequence == null ? "-" : string.Format(Sequence.Name ?? "{0} x {1} => {2}", Sequence.Length, Sequence.Repeats, Frame + Sequence.Length * Sequence.Repeats);
 
         public Inputs()
         {
@@ -158,19 +170,7 @@ namespace Jazz2TAS
             }
             _PreviousInputs = this;
         }
-
-        public Inputs(Inputs toClone)
-        {
-            _Frame = toClone._Frame;
-            _Right = toClone._Right;
-            _Left = toClone._Left;
-            _Up = toClone._Up;
-            _Down = toClone._Down;
-            _Jump = toClone._Jump;
-            _Shoot = toClone._Shoot;
-            _Run = toClone._Run;
-        }
-
+        
         protected virtual void OnPropertyChanged(PropertyChangedEventArgs e)
         {
             if (PropertyChanged != null)
@@ -225,6 +225,22 @@ namespace Jazz2TAS
         public int CompareTo(Inputs other)
         {
             return _Frame - other._Frame;
+        }
+
+        public object Clone()
+        {
+            var output = new Inputs();
+            output._Frame = _Frame;
+            output._Right = _Right;
+            output._Left = _Left;
+            output._Up = _Up;
+            output._Down = _Down;
+            output._Jump = _Jump;
+            output._Shoot = _Shoot;
+            output._Run = _Run;
+            output._Gun = _Gun;
+            output._Sequence = (InputSequence)_Sequence?.Clone();
+            return output;
         }
     }
 }

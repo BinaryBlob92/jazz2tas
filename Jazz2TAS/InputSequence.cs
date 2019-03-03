@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using System.Xml.Serialization;
@@ -8,7 +9,7 @@ using System.Xml.Serialization;
 namespace Jazz2TAS
 {
     [XmlType]
-    public class InputSequence
+    public class InputSequence : ICloneable
     {
         [XmlElement]
         public string Name { get; set; }
@@ -23,6 +24,7 @@ namespace Jazz2TAS
         {
             Repeats = 1;
             Inputs = new List<Inputs>();
+            Name = "{0} x {1} => {2}";
         }
 
         public short[] GetInputs()
@@ -52,6 +54,7 @@ namespace Jazz2TAS
         public int GetCalculatedHash()
         {
             int hash = 0;
+            hash += Name == null ? 0 : Name.GetHashCode();
             hash += Length << 16;
             hash += Repeats;
 
@@ -59,6 +62,54 @@ namespace Jazz2TAS
                 hash += inputs.GetCalculatedHash();
 
             return hash;
+        }
+
+        public bool Save(string filename)
+        {
+            try
+            {
+                var serializer = new XmlSerializer(typeof(InputSequence));
+                using (var stream = new FileStream(filename, FileMode.Create))
+                {
+                    serializer.Serialize(stream, this);
+                    return true;
+                }
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        public static bool Load(string filename, out InputSequence inputSequence)
+        {
+            try
+            {
+                var serializer = new XmlSerializer(typeof(InputSequence));
+                using (var stream = new FileStream(filename, FileMode.Open))
+                {
+                    inputSequence = (InputSequence)serializer.Deserialize(stream);
+                    return true;
+                }
+            }
+            catch
+            {
+                inputSequence = null;
+                return false;
+            }
+        }
+
+        public object Clone()
+        {
+            var output = new InputSequence();
+            output.Name = Name;
+            output.Length = Length;
+            output.Repeats = Repeats;
+            foreach (var inputs in Inputs)
+            {
+                output.Inputs.Add((Inputs)inputs.Clone());
+            }
+            return output;
         }
     }
 }
