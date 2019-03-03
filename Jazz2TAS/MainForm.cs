@@ -778,10 +778,11 @@ namespace Jazz2TAS
                 if (dialog.ShowDialog() == DialogResult.OK)
                 {
                     DataGridViewRow insertAt = dataGridViewInputs.SelectedRows[0];
+                    Inputs inputs = (Inputs)insertAt.DataBoundItem;
                     for (var i = 0; i < dialog.Insert; i++)
                     {
                         // I don't think inserting blank rows will be happy, so just default them to the selected row
-                        Inputs.Insert(insertAt.Index, new Jazz2TAS.Inputs((insertAt.DataBoundItem as Inputs)));
+                        Inputs.Insert(insertAt.Index, (Inputs)inputs.Clone());
                     }
                 }
             }
