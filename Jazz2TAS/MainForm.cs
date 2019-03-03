@@ -265,11 +265,11 @@ namespace Jazz2TAS
             {
                 foreach (var level in Levels)
                 {
-                    if(level.LevelName != null)
+                    if (level.LevelName != null)
                         newHash ^= level.LevelName.GetHashCode();
                     foreach (var inputs in level.Inputs)
                     {
-                        newHash += inputs.Frame ^ inputs.ToJazz2Inputs() ^ inputs.Gun.GetHashCode();
+                        newHash += inputs.GetCalculatedHash();
                     }
                 }
             }
@@ -322,7 +322,7 @@ namespace Jazz2TAS
                 return;
 
             dataGridViewInputs.EndEdit();
-            var tasInputs = SelectedLevel.GetJazz2InputsBytes();
+            var tasInputs = SelectedLevel.GetJazz2Inputs();
             WinApi.WriteProcessMemory(_Process.Handle, _TASInputsPointer, tasInputs, tasInputs.Length, out int bytesWritten);
         }
 
@@ -569,7 +569,7 @@ namespace Jazz2TAS
 
             if (e.ColumnIndex > 0)
             {
-                if(e.Value != null && e.Value.GetType() == typeof(bool) && (bool)e.Value)
+                if (e.Value != null && e.Value.GetType() == typeof(bool) && (bool)e.Value)
                 {
                     using (var brush = new SolidBrush(_TableTickBackgroundColor))
                     {
@@ -649,7 +649,7 @@ namespace Jazz2TAS
                         if (Inputs.Count == currentIndex + 1)
                         {
                             // I'm at the end of the list, just make the next input
-                            Inputs shoot = new Jazz2TAS.Inputs(currentInputs);
+                            Inputs shoot = (Inputs)currentInputs.Clone();
                             shoot.Shoot = true;
                             shoot.Frame = currentFrame;
                             Inputs.Add(shoot);
@@ -689,7 +689,7 @@ namespace Jazz2TAS
                                 {
                                     // The input fell between our last shot and this one, use it as our baseline
                                     currentInputs = nextInput;
-                                    Inputs shoot = new Jazz2TAS.Inputs(currentInputs);
+                                    Inputs shoot = (Inputs)currentInputs.Clone();
                                     shoot.Shoot = true;
                                     shoot.Frame = currentFrame;
                                     Inputs.Insert(currentIndex + 1, shoot);
@@ -698,7 +698,7 @@ namespace Jazz2TAS
                             else
                             {
                                 // No new inputs, just use what we've been using
-                                Inputs shoot = new Jazz2TAS.Inputs(currentInputs);
+                                Inputs shoot = (Inputs)currentInputs.Clone();
                                 shoot.Shoot = true;
                                 shoot.Frame = currentFrame;
                                 Inputs.Insert(currentIndex + 1, shoot);
@@ -715,7 +715,7 @@ namespace Jazz2TAS
                         if (Inputs.Count == currentIndex + 1)
                         {
                             // I'm at the end of the list, just make the next input
-                            Inputs unshoot = new Jazz2TAS.Inputs(currentInputs);
+                            Inputs unshoot = (Inputs)currentInputs.Clone();
                             unshoot.Shoot = false;
                             unshoot.Frame = currentFrame + 1;
                             Inputs.Add(unshoot);
@@ -736,7 +736,7 @@ namespace Jazz2TAS
                             else
                             {
                                 // No input, just use what we've been using
-                                Inputs unshoot = new Jazz2TAS.Inputs(currentInputs);
+                                Inputs unshoot = (Inputs)currentInputs.Clone();
                                 unshoot.Shoot = false;
                                 unshoot.Frame = currentFrame + 1;
                                 Inputs.Insert(currentIndex + 1, unshoot);
@@ -747,6 +747,22 @@ namespace Jazz2TAS
                         // Frame goes up 6 because you can only shoot every 6 frames (for >2 shots)
                         currentIndex++ ;
                         currentFrame+=6 ;
+                    }
+                }
+            }
+        }
+
+        private void dataGridViewInputs_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.ColumnIndex == 9)
+            {
+                var inputs = dataGridViewInputs.Rows[e.RowIndex].DataBoundItem as Inputs;
+
+                if (inputs != null)
+                {
+                    using (var dialog = new SequenceForm(inputs))
+                    {
+                        dialog.ShowDialog();
                     }
                 }
             }

@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.mainMenu = new System.Windows.Forms.MainMenu(this.components);
             this.menuItemFile = new System.Windows.Forms.MenuItem();
             this.menuItemNew = new System.Windows.Forms.MenuItem();
@@ -59,7 +60,7 @@
             this.ColumnShoot = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.ColumnRun = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.ColumnGun = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ColumnFiller = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ColumnSequence = new System.Windows.Forms.DataGridViewButtonColumn();
             this.splitter2 = new System.Windows.Forms.Splitter();
             this.dataGridViewPositionHistory = new System.Windows.Forms.DataGridView();
             this.ColumnPositionFrame = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -255,7 +256,7 @@
             this.ColumnShoot,
             this.ColumnRun,
             this.ColumnGun,
-            this.ColumnFiller});
+            this.ColumnSequence});
             this.dataGridViewInputs.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dataGridViewInputs.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnEnter;
             this.dataGridViewInputs.Location = new System.Drawing.Point(0, 24);
@@ -264,6 +265,7 @@
             this.dataGridViewInputs.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dataGridViewInputs.Size = new System.Drawing.Size(530, 384);
             this.dataGridViewInputs.TabIndex = 1;
+            this.dataGridViewInputs.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewInputs_CellContentClick);
             this.dataGridViewInputs.CellPainting += new System.Windows.Forms.DataGridViewCellPaintingEventHandler(this.dataGridViewInputs_CellPainting);
             this.dataGridViewInputs.RowPrePaint += new System.Windows.Forms.DataGridViewRowPrePaintEventHandler(this.dataGridViewInputs_RowPrePaint);
             // 
@@ -330,12 +332,14 @@
             this.ColumnGun.Name = "ColumnGun";
             this.ColumnGun.Width = 40;
             // 
-            // ColumnFiller
+            // ColumnSequence
             // 
-            this.ColumnFiller.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.ColumnFiller.HeaderText = "";
-            this.ColumnFiller.Name = "ColumnFiller";
-            this.ColumnFiller.ReadOnly = true;
+            this.ColumnSequence.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.ColumnSequence.DataPropertyName = "SequenceDescription";
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            this.ColumnSequence.DefaultCellStyle = dataGridViewCellStyle1;
+            this.ColumnSequence.HeaderText = "Sequence";
+            this.ColumnSequence.Name = "ColumnSequence";
             // 
             // splitter2
             // 
@@ -544,16 +548,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn ColumnPositionFiller;
         private System.Windows.Forms.MenuItem menuItemEdit;
         private System.Windows.Forms.MenuItem menuItemOffset;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ColumnFrame;
-        private System.Windows.Forms.DataGridViewCheckBoxColumn ColumnLeft;
-        private System.Windows.Forms.DataGridViewCheckBoxColumn ColumnRight;
-        private System.Windows.Forms.DataGridViewCheckBoxColumn ColumnUp;
-        private System.Windows.Forms.DataGridViewCheckBoxColumn ColumnDown;
-        private System.Windows.Forms.DataGridViewCheckBoxColumn ColumnJump;
-        private System.Windows.Forms.DataGridViewCheckBoxColumn ColumnShoot;
-        private System.Windows.Forms.DataGridViewCheckBoxColumn ColumnRun;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ColumnGun;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ColumnFiller;
         private System.Windows.Forms.MenuItem menuItem1;
         private System.Windows.Forms.Panel panelLevels;
         private System.Windows.Forms.Label labelLevels;
@@ -569,6 +563,16 @@
         private System.Windows.Forms.Label labelInfo;
         private System.Windows.Forms.Button buttonFrameAdvance;
         private System.Windows.Forms.Button buttonPlayPause;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ColumnFrame;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn ColumnLeft;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn ColumnRight;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn ColumnUp;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn ColumnDown;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn ColumnJump;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn ColumnShoot;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn ColumnRun;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ColumnGun;
+        private System.Windows.Forms.DataGridViewButtonColumn ColumnSequence;
         private System.Windows.Forms.MenuItem menuInsert;
     }
 }
