@@ -160,15 +160,22 @@ namespace Jazz2TAS
             SavePrompt();
             using (var dialog = new OpenFileDialog())
             {
-                dialog.Filter = "XML-files|*.xml";
+                dialog.Filter = "TAS project|*.xml";
                 if (dialog.ShowDialog() == DialogResult.OK)
                 {
-                    using (var fileStream = new FileStream(dialog.FileName, FileMode.Open))
+                    try
                     {
-                        var serializer = new XmlSerializer(typeof(BindingList<Level>));
-                        dataGridViewLevels.DataSource = serializer.Deserialize(fileStream);
-                        _CurrentProjectPath = dialog.FileName;
-                        HasChanged();
+                        using (var fileStream = new FileStream(dialog.FileName, FileMode.Open))
+                        {
+                            var serializer = new XmlSerializer(typeof(BindingList<Level>));
+                            dataGridViewLevels.DataSource = serializer.Deserialize(fileStream);
+                            _CurrentProjectPath = dialog.FileName;
+                            HasChanged();
+                        }
+                    }
+                    catch
+                    {
+                        MessageBox.Show("Failed to open TAS project.", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                 }
             }
@@ -291,7 +298,7 @@ namespace Jazz2TAS
             {
                 using (var dialog = new SaveFileDialog())
                 {
-                    dialog.Filter = "XML-files|*.xml";
+                    dialog.Filter = "TAS project|*.xml";
                     if (dialog.ShowDialog() == DialogResult.OK)
                     {
                         Save(dialog.FileName);
@@ -300,12 +307,19 @@ namespace Jazz2TAS
             }
             else
             {
-                using (var fileStream = new FileStream(filename, FileMode.Create))
+                try
                 {
-                    var serializer = new XmlSerializer(typeof(BindingList<Level>));
-                    serializer.Serialize(fileStream, Levels);
-                    _CurrentProjectPath = filename;
-                    HasChanged();
+                    using (var fileStream = new FileStream(filename, FileMode.Create))
+                    {
+                        var serializer = new XmlSerializer(typeof(BindingList<Level>));
+                        serializer.Serialize(fileStream, Levels);
+                        _CurrentProjectPath = filename;
+                        HasChanged();
+                    }
+                }
+                catch
+                {
+                    MessageBox.Show("Failed to save the TAS project.", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
         }
