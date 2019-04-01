@@ -483,7 +483,7 @@ namespace Jazz2TAS
                 {
                     int bytesRead;
                     ushort x, y, frame, finished, paused;
-                     WinApi.ReadProcessMemory(_Process.Handle, _Process.MainModule.BaseAddress + 0x1C856E, out x, 2, out bytesRead);
+                    WinApi.ReadProcessMemory(_Process.Handle, _Process.MainModule.BaseAddress + 0x1C856E, out x, 2, out bytesRead);
                     WinApi.ReadProcessMemory(_Process.Handle, _Process.MainModule.BaseAddress + 0x1C8572, out y, 2, out bytesRead);
                     WinApi.ReadProcessMemory(_Process.Handle, _Process.MainModule.BaseAddress + 0x1ADC20, out frame, 2, out bytesRead);
                     WinApi.ReadProcessMemory(_Process.Handle, _Process.MainModule.BaseAddress + 0x1F3844, out finished, 2, out bytesRead);
@@ -528,12 +528,16 @@ namespace Jazz2TAS
                         }
                     }
 
-                    if (finished > _PreviousFinished && dataGridViewLevels.SelectedRows.Count > 0)
+                    if (finished > 0)
                     {
-                        int newIndex = dataGridViewLevels.SelectedRows[0].Index + 1;
-                        if (newIndex < dataGridViewLevels.Rows.Count)
+                        SendKeys.Send(" ");
+                        if (finished > _PreviousFinished && dataGridViewLevels.SelectedRows.Count > 0)
                         {
-                            dataGridViewLevels.Rows[newIndex].Selected = true;
+                            int newIndex = dataGridViewLevels.SelectedRows[0].Index + 1;
+                            if (newIndex < dataGridViewLevels.Rows.Count)
+                            {
+                                dataGridViewLevels.Rows[newIndex].Selected = true;
+                            }
                         }
                     }
 
