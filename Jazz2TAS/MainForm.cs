@@ -21,6 +21,7 @@ namespace Jazz2TAS
         private ManualResetEvent _ProcessThreadExit;
         private ushort _PreviousFrame;
         private ushort _PreviousFinished;
+        private ushort _PreviousEpisodeFinished;
         private int _CurrentHash;
         private int _Index;
         private ushort[] _Positions = new ushort[256];
@@ -461,7 +462,7 @@ namespace Jazz2TAS
                     {
                         BeginInvoke(new Action(RefreshGameInfo));
 
-                        if (_ProcessThreadExit.WaitOne(50))
+                        if (_ProcessThreadExit.WaitOne(10))
                             break;
                     }
                 }
@@ -483,11 +484,12 @@ namespace Jazz2TAS
                 else
                 {
                     int bytesRead;
-                    ushort x, y, frame, finished, paused;
+                    ushort x, y, frame, finished, paused, episodeFinished;
                     WinApi.ReadProcessMemory(_Process.Handle, _Process.MainModule.BaseAddress + 0x1C856E, out x, 2, out bytesRead);
                     WinApi.ReadProcessMemory(_Process.Handle, _Process.MainModule.BaseAddress + 0x1C8572, out y, 2, out bytesRead);
                     WinApi.ReadProcessMemory(_Process.Handle, _Process.MainModule.BaseAddress + 0x1ADC20, out frame, 2, out bytesRead);
                     WinApi.ReadProcessMemory(_Process.Handle, _Process.MainModule.BaseAddress + 0x1F3844, out finished, 2, out bytesRead);
+                    WinApi.ReadProcessMemory(_Process.Handle, _Process.MainModule.BaseAddress + 0x12C4A8, out episodeFinished, 2, out bytesRead);
                     WinApi.ReadProcessMemory(_Process.Handle, _IsPausedPointer, out paused, 2, out bytesRead);
 
                     labelInfo.Text = string.Format("Position: {0} x {1}\r\nFrame: {2}", x, y, frame);
@@ -497,43 +499,47 @@ namespace Jazz2TAS
                     else
                         buttonPlayPause.Text = "Pause";
 
-                    if (finished == 0 && frame != _PreviousFrame && Inputs != null && Inputs.Count > 0)
+                    if (frame < _PreviousFrame)
+                        _Index = 0;
+
+                    if (finished == 0 && frame > _PreviousFrame && Inputs != null && Inputs.Count > 0)
                     {
                         int index = Math.Min(_Index, Inputs.Count - 1);
-                        int gun = 0;
-
-                        while (index > 0 && Inputs[index].Frame > frame)
-                            index--;
 
                         while (index < Inputs.Count && Inputs[index].Frame < frame)
-                        {
-                            var inputs = Inputs[index];
-                            if (inputs.Gun.HasValue && inputs.Gun.Value > 0 && inputs.Gun.Value < 10)
-                            {
-                                gun = inputs.Gun.Value;
-                            }
                             index++;
-                        }
 
-                        _PreviousFrame = frame;
-
-                        if (--index >= 0 && index != _Index)
+                        if (--index != _Index)
                         {
-                            int oldIndex = _Index;
-                            _Index = index;
-                            dataGridViewInputs.InvalidateRow(oldIndex);
+                            dataGridViewInputs.InvalidateRow(_Index);
                             dataGridViewInputs.InvalidateRow(index);
 
+                            int gun = 0;
+                            while (_Index < index)
+                            {
+                                if (_Index < Inputs.Count)
+                                {
+                                    var inputs = Inputs[++_Index];
+                                    if (inputs.Gun.HasValue)
+                                    {
+                                        gun = inputs.Gun.Value;
+                                    }
+                                }
+                            }
+
                             if (gun != 0)
+                            {
                                 SendKeys.Send(gun.ToString());
+                                Debug.WriteLine(gun);
+                            }
                         }
                     }
 
+                    if (episodeFinished > _PreviousEpisodeFinished)
+                        SendKeys.Send(" ");
+
                     if (finished > 0)
                     {
-                        if (Inputs != null)
-                            SendKeys.Send(" ");
-
                         if (finished > _PreviousFinished && dataGridViewLevels.SelectedRows.Count > 0)
                         {
                             int newIndex = dataGridViewLevels.SelectedRows[0].Index + 1;
@@ -549,6 +555,8 @@ namespace Jazz2TAS
                     }
 
                     _PreviousFinished = finished;
+                    _PreviousFrame = frame;
+                    _PreviousEpisodeFinished = episodeFinished;
                 }
             }
             catch (Exception ex)
