@@ -248,6 +248,7 @@ namespace Jazz2TAS
                 if (level == null)
                 {
                     dataGridViewInputs.Visible = false;
+                    dataGridViewInputs.DataSource = null;
                 }
                 else
                 {
@@ -530,13 +531,19 @@ namespace Jazz2TAS
 
                     if (finished > 0)
                     {
-                        SendKeys.Send(" ");
+                        if (Inputs != null)
+                            SendKeys.Send(" ");
+
                         if (finished > _PreviousFinished && dataGridViewLevels.SelectedRows.Count > 0)
                         {
                             int newIndex = dataGridViewLevels.SelectedRows[0].Index + 1;
                             if (newIndex < dataGridViewLevels.Rows.Count)
                             {
                                 dataGridViewLevels.Rows[newIndex].Selected = true;
+                            }
+                            else
+                            {
+                                dataGridViewLevels.ClearSelection();
                             }
                         }
                     }
