@@ -500,7 +500,11 @@ namespace Jazz2TAS
                         buttonPlayPause.Text = "Pause";
 
                     if (frame < _PreviousFrame)
+                    {
+                        dataGridViewInputs.InvalidateRow(_Index);
                         _Index = 0;
+                        dataGridViewInputs.InvalidateRow(_Index);
+                    }
 
                     if (finished == 0 && frame > _PreviousFrame && Inputs != null && Inputs.Count > 0)
                     {
