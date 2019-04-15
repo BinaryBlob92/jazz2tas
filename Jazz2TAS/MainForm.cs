@@ -406,11 +406,13 @@ namespace Jazz2TAS
                 0x66, 0x3D, 0x00, 0x00, // cmp ax,0000
                 0x75, 0x09, // jne 00000000
                 0x66, 0xC7, 0x05, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, // mov word ptr [Jazz2.exe+1ADC20],0000
+                0x66, 0xC7, 0x05, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, // mov word ptr [Jazz2.exe+E0714],0000
                 0x66, 0x58, // pop ax
                 0xC3, // ret 
             };
             BitConverter.GetBytes((int)_Process.MainModule.BaseAddress + 0xE0714).CopyTo(resetFunctionData, 4);
             BitConverter.GetBytes((int)_Process.MainModule.BaseAddress + 0x1ADC20).CopyTo(resetFunctionData, 17);
+            BitConverter.GetBytes((int)_Process.MainModule.BaseAddress + 0xE0714).CopyTo(resetFunctionData, 26);
 
             var playbackFunctionPointer = WinApi.VirtualAllocEx(_Process.Handle, IntPtr.Zero, playbackFunctionData.Length + resetFunctionData.Length, 0x1000, 0x40);
             WinApi.WriteProcessMemory(_Process.Handle, playbackFunctionPointer, playbackFunctionData, playbackFunctionData.Length, out bytesWritten);
