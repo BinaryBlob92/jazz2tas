@@ -9,7 +9,7 @@ namespace Jazz2TAS
         static void Main(string[] args)
         {
             Application.EnableVisualStyles();
-            Application.Run(new MainForm());
+            Application.Run(new MainForm(args));
         }
     }
 }

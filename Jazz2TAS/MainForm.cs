@@ -79,7 +79,7 @@ namespace Jazz2TAS
             }
         }
 
-        public MainForm()
+        public MainForm(string[] args)
         {
             InitializeComponent();
 
@@ -99,6 +99,11 @@ namespace Jazz2TAS
             _ProcessThread.Start();
 
             Theme = Theme.DefaultTheme;
+
+            if (args.Length > 0)
+            {
+                OpenTasProject(args[args.Length - 1]);
+            }
         }
 
         protected override void OnActivated(EventArgs e)
@@ -165,21 +170,26 @@ namespace Jazz2TAS
                 dialog.Filter = "TAS project|*.xml";
                 if (dialog.ShowDialog() == DialogResult.OK)
                 {
-                    try
-                    {
-                        using (var fileStream = new FileStream(dialog.FileName, FileMode.Open))
-                        {
-                            var serializer = new XmlSerializer(typeof(BindingList<Level>));
-                            dataGridViewLevels.DataSource = serializer.Deserialize(fileStream);
-                            _CurrentProjectPath = dialog.FileName;
-                            HasChanged();
-                        }
-                    }
-                    catch
-                    {
-                        MessageBox.Show("Failed to open TAS project.", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }
+                    OpenTasProject(dialog.FileName);
                 }
+            }
+        }
+
+        private void OpenTasProject(string filename)
+        {
+            try
+            {
+                using (var fileStream = new FileStream(filename, FileMode.Open))
+                {
+                    var serializer = new XmlSerializer(typeof(BindingList<Level>));
+                    dataGridViewLevels.DataSource = serializer.Deserialize(fileStream);
+                    _CurrentProjectPath = filename;
+                    HasChanged();
+                }
+            }
+            catch
+            {
+                MessageBox.Show("Failed to open TAS project.", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
