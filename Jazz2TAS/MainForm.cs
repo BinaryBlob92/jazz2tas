@@ -502,13 +502,13 @@ namespace Jazz2TAS
 
                     if (frame < _PreviousFrame)
                     {
-                        if (dataGridViewInputs.Rows.Count < _Index)
+                        if (_Index < dataGridViewInputs.Rows.Count)
                         {
                             dataGridViewInputs.InvalidateRow(_Index);
                             Debug.WriteLine("Row " + _Index + " invalidated.");
                         }
                         _Index = 0;
-                        if (dataGridViewInputs.Rows.Count < _Index)
+                        if (_Index < dataGridViewInputs.Rows.Count)
                         {
                             dataGridViewInputs.InvalidateRow(_Index);
                             Debug.WriteLine("Row " + _Index + " invalidated.");
