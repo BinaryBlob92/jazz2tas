@@ -22,6 +22,7 @@ namespace Jazz2TAS
         private ushort _PreviousFrame;
         private ushort _PreviousFinished;
         private ushort _PreviousEpisodeFinished;
+        private bool _WaitForFrameReset;
         private int _CurrentHash;
         private int _Index;
         private ushort[] _Positions = new ushort[256];
@@ -462,7 +463,7 @@ namespace Jazz2TAS
                     {
                         BeginInvoke(new Action(RefreshGameInfo));
 
-                        if (_ProcessThreadExit.WaitOne(10))
+                        if (_ProcessThreadExit.WaitOne(14))
                             break;
                     }
                 }
@@ -501,12 +502,22 @@ namespace Jazz2TAS
 
                     if (frame < _PreviousFrame)
                     {
-                        dataGridViewInputs.InvalidateRow(_Index);
+                        if (dataGridViewInputs.Rows.Count < _Index)
+                        {
+                            dataGridViewInputs.InvalidateRow(_Index);
+                            Debug.WriteLine("Row " + _Index + " invalidated.");
+                        }
                         _Index = 0;
-                        dataGridViewInputs.InvalidateRow(_Index);
+                        if (dataGridViewInputs.Rows.Count < _Index)
+                        {
+                            dataGridViewInputs.InvalidateRow(_Index);
+                            Debug.WriteLine("Row " + _Index + " invalidated.");
+                        }
+                        _WaitForFrameReset = false;
+                        Debug.WriteLine("Frame counter has been reset.");
                     }
 
-                    if (finished == 0 && frame > _PreviousFrame && Inputs != null && Inputs.Count > 0)
+                    if (!_WaitForFrameReset && finished == 0 && frame > _PreviousFrame && Inputs != null && Inputs.Count > 0)
                     {
                         int index = Math.Min(_Index, Inputs.Count - 1);
 
@@ -516,7 +527,9 @@ namespace Jazz2TAS
                         if (--index != _Index)
                         {
                             dataGridViewInputs.InvalidateRow(_Index);
+                            Debug.WriteLine("Row " + _Index + " invalidated.");
                             dataGridViewInputs.InvalidateRow(index);
+                            Debug.WriteLine("Row " + index + " invalidated.");
 
                             int gun = 0;
                             while (_Index < index)
@@ -527,34 +540,39 @@ namespace Jazz2TAS
                                     if (inputs.Gun.HasValue)
                                     {
                                         gun = inputs.Gun.Value;
+                                        Debug.WriteLine("Will switch to gun " + gun + ".");
                                     }
                                 }
                             }
 
                             if (gun != 0)
                             {
+                                Debug.WriteLine("Simulating key press: " + gun);
                                 SendKeys.Send(gun.ToString());
-                                Debug.WriteLine(gun);
                             }
                         }
                     }
 
                     if (episodeFinished > _PreviousEpisodeFinished)
-                        SendKeys.Send(" ");
-
-                    if (finished > 0)
                     {
-                        if (finished > _PreviousFinished && dataGridViewLevels.SelectedRows.Count > 0)
+                        Debug.WriteLine("Episode finished.");
+                        Debug.WriteLine("Simulating key press: <SPACE>");
+                        SendKeys.Send(" ");
+                    }
+
+                    if (finished > _PreviousFinished && dataGridViewLevels.SelectedRows.Count > 0)
+                    {
+                        Debug.WriteLine("Level finished.");
+                        int newIndex = dataGridViewLevels.SelectedRows[0].Index + 1;
+                        if (newIndex < dataGridViewLevels.Rows.Count)
                         {
-                            int newIndex = dataGridViewLevels.SelectedRows[0].Index + 1;
-                            if (newIndex < dataGridViewLevels.Rows.Count)
-                            {
-                                dataGridViewLevels.Rows[newIndex].Selected = true;
-                            }
-                            else
-                            {
-                                dataGridViewLevels.ClearSelection();
-                            }
+                            dataGridViewLevels.Rows[newIndex].Selected = true;
+                            Debug.WriteLine("Waiting for frame counter to be reset.");
+                            _WaitForFrameReset = true;
+                        }
+                        else
+                        {
+                            dataGridViewLevels.ClearSelection();
                         }
                     }
 
@@ -565,7 +583,7 @@ namespace Jazz2TAS
             }
             catch (Exception ex)
             {
-                Debug.WriteLine(ex.Message);
+                Debug.WriteLine("ERROR: " + ex.Message);
             }
         }
 
